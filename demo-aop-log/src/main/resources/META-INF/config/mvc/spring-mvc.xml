@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+  	   xmlns:util="http://www.springframework.org/schema/util"
+  	   xmlns:aop="http://www.springframework.org/schema/aop"
+  	   xmlns:tx="http://www.springframework.org/schema/tx" 
+  	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+  	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" 
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context-4.1.xsd
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util-4.1.xsd
+			http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+			http://www.springframework.org/schema/mvc  
+			http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+			http://www.springframework.org/schema/tx    
+            http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+            http://code.alibabatech.com/schema/dubbo        
+            http://code.alibabatech.com/schema/dubbo/dubbo.xsd"> 
+            
+    <!-- 使用注解  扫描 @Reference  生成远程服务代理
+	<dubbo:annotation package="com.zefu.ims.controller" />
+    -->
+	<!-- 开启@Controller 注解扫描 -->
+	<context:component-scan base-package="com.myron.ims.controller"/>	
+ 
+	<!-- 开启@RequestMapping 注解扫描 spring 3.2后使用) 请求到处理器的映射-->
+	<mvc:annotation-driven />
+	
+	<!-- 启动对@AspectJ注解的支持 -->  
+	<aop:aspectj-autoproxy/> 
+	
+	
+	<!-- ViewResolver 解析视图名-->
+	<bean id="jspViewResolver"
+			class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<!-- <property name="suffix" value=".jsp" /> -->
+	</bean>
+	
+	<!--使用@ResponseBody注解,将Java对象解析为json格式,返回到body-->
+	<bean id="mappingJackson2HttpMessageConverter"  
+        class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+        <property name="supportedMediaTypes">  
+            <list>  
+                <value>text/html;charset=UTF-8</value>  
+                <value>text/json;charset=UTF-8</value>  
+                <value>application/json;charset=UTF-8</value>  
+            </list>  
+        </property>  
+    </bean>      
+    
+    <!-- springMVC file upload
+    <util:properties id="uploadProps" location="classpath:META-INF/config/upload.properties"/>
+	<bean id="multipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="#{uploadProps.maxUploadSize}"></property>
+		<property name="resolveLazily" value="#{uploadProps.resolveLazily}"></property>		
+	</bean>
+    -->
+    
+    <!-- 	开启shiro注解支持
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	-->
+	
+	<!--  UnauthorizedException 拦截异常处理   暂时使用 @ControllerAdvice注解的 GlobalExceptionHandler 处理全局异常
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="org.apache.shiro.authz.UnauthorizedException">/unauthorized.do</prop>
+				
+			</props>
+		</property>
+	</bean>
+	-->
+</beans>
