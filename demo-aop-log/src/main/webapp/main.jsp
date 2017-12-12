@@ -15,7 +15,7 @@
 	function logout() {
 		debugger;
 		$.ajax({
-			url : "resetPassword.do",
+			url : "resetPassword",
 			type:"post",
 			contentType: "application/json; charset=utf-8",
 		    dataType: "json",
@@ -32,7 +32,7 @@
 	function testException() {
 		debugger;
 		$.ajax({
-			url : "testException.do",
+			url : "testException",
 			success : function(data) {
 				alert(data.msg);
 			},
@@ -46,7 +46,7 @@
 <body>
 <button onclick="logout()">重置密码</button>	
 <button onclick="testException()">测试产出异常</button>	
-	<form action="logout.do">
+	<form action="logout">
 	  	<input type="submit" value="注销" />
 	</form>
 </body>

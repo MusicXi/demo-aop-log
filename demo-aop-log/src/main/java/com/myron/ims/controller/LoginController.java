@@ -51,7 +51,7 @@ public class LoginController {
 	 * @throws WrongVerifyCodeException 
 	 */
 	@SystemControllerLog(description="登入系统")
-	@RequestMapping("/login.do")
+	@RequestMapping("/login")
 	public String login(HttpServletRequest request, ModelMap model,User user, Boolean rememberMe, String verifycode) throws Exception{		
 		//TODO 用户密码校验逻辑省略...
 		user.setId("0001");
@@ -70,14 +70,15 @@ public class LoginController {
 	 * @return
 	 */
 	@SystemControllerLog(description="安全退出系统")
-	@RequestMapping("logout.do")
+	@RequestMapping("logout")
 	public String logout(HttpServletRequest request){
 		HttpSession session = request.getSession(); 
 		User user = (User) session.getAttribute(KEY_USER);
-		//TODO 模拟退出登入,直接清空sessioni
-		
-		logger.info("{} 退出系统成功!", user.getUsername());
-		session.removeAttribute(KEY_USER);
+		if (user != null) {
+			//TODO 模拟退出登入,直接清空sessioni
+			logger.info("{} 退出系统成功!", user.getUsername());
+			session.removeAttribute(KEY_USER);			
+		}
 		return LOGIN_PAGE;
 	}
 	
@@ -87,7 +88,7 @@ public class LoginController {
 	 * @return
 	 */
 	@SystemControllerLog(description="用户重置密码")
-	@RequestMapping("resetPassword.do")
+	@RequestMapping("resetPassword")
 	@ResponseBody
 	public Map<String, Object> resetPassword(HttpServletRequest request, @RequestBody User user1){
 		Map<String, Object> result = new HashMap<>();
@@ -105,7 +106,7 @@ public class LoginController {
 	 * @return
 	 */
 	@SystemControllerLog(description="Xxx操作")
-	@RequestMapping("testException.do")
+	@RequestMapping("testException")
 	@ResponseBody
 	public Map<String, Object> testException(HttpServletRequest request) throws Exception{
 		Map<String, Object> result = new HashMap<>();

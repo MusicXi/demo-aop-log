@@ -11,13 +11,13 @@
 </head>
 <body>
 	<h3>演示登入行为，触发日志记录,请求参数中password将会被隐藏,不被记录</h3>
-	<form action="login.do">
+	<form action="login">
 		用户名:<input type="text" name="username" />
 		密码：<input type="password" name="password" />
 	  	<input type="submit" value="登入" />
 	</form>
 	<h3>演示登入行为，触发日志记录,请求参数中password将会被隐藏,不被记录</h3>
-<!-- <div id="app">
+<div id="app">
   <p>{{ message }}</p>
 </div>
 
@@ -25,9 +25,9 @@
 new Vue({
   el: '#app',
   data: {
-    message: 'Hello Vue.js!'
+    message: 'Hello Vue.jsddddd!'
   }
 })
-</script>  -->
+</script>  
 </body>
 </html>

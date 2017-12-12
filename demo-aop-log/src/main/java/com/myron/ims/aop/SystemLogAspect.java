@@ -110,8 +110,8 @@ public class SystemLogAspect {
     	    	return;
     	    }
         }
-//        Object [] args = joinPoint.getArgs();
-//        System.out.println(args);
+        Object [] args = joinPoint.getArgs();
+        System.out.println(args);
         
     	String title="";
     	String type="info";						  //日志类型(info:入库,error:错误)

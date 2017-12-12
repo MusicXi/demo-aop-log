@@ -19,8 +19,8 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
-		<url-pattern>*.do</url-pattern>
-		<!--<url-pattern>/*</url-pattern> -->
+		<!-- <url-pattern>*.do</url-pattern> -->
+		<url-pattern>/*</url-pattern> 
 	</filter-mapping>
 	
 
@@ -37,7 +37,9 @@
 
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>
-		<url-pattern>*.do</url-pattern><!-- 会拦截*.do的请求。 -->
+		<!-- 会拦截*.do的请求。
+		<url-pattern>*.do</url-pattern> -->
+		<url-pattern>/</url-pattern> 
 	</servlet-mapping>
 	<!-- Spring MVC End -->
 
