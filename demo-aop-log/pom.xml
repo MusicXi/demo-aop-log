@@ -35,7 +35,7 @@
 				<version>2.2</version>
 				<configuration>
 					<port>8080</port>
-					<path>/demo-aop-log</path>
+					<path>/</path>
 					<uriEncoding>UTF-8</uriEncoding>
 					<server>tomcat7</server>
 				</configuration>

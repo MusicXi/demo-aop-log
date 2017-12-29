@@ -35,11 +35,11 @@ public class LoginController {
 	public static final String KEY_USER = "ims_user";
 	
 	
-	@RequestMapping("/")
-	public String index(HttpServletRequest request) throws Exception{		
-		return LOGIN_PAGE;
-	}
-	
+//	@RequestMapping("/")
+//	public String index(HttpServletRequest request) throws Exception{		
+//		return LOGIN_PAGE;
+//	}
+//	
 	/**
 	 * 系统登入
 	 * @param username
