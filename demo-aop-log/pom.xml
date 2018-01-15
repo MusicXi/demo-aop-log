@@ -50,23 +50,15 @@
 		<log4j.version>1.2.16</log4j.version>
 		<slf4j-api.version>1.7.7</slf4j-api.version>
 		<slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
-		<!-- logback 日志 -->
-		<jcl-over-slf4j.version>1.7.7</jcl-over-slf4j.version>
-		<logback-core.version>1.1.3</logback-core.version>
-		<logback-classic.version>1.1.3</logback-classic.version>
+		
 		<!-- test libs -->
 		<junit.version>4.11</junit.version>
 		<!-- web libs -->
 		<servlet.version>3.0-alpha-1</servlet.version>
 		<jstl.version>1.2</jstl.version>
 		<jsp-api.version>2.1</jsp-api.version>
-		<!-- server libs -->
-		<jetty.version>6.1.26</jetty.version>
-		<tomcat-embed.version>8.0.11</tomcat-embed.version>
-		<!-- dubbo libs -->
-		<dubbo.version>2.8.4</dubbo.version>
-		<zookeeper.version>3.4.6</zookeeper.version>
-		<zkclient.version>0.1</zkclient.version>
+
+
 		<!-- rest json libs -->
 		<resteasy.version>3.0.7.Final</resteasy.version>
 		<jackson.version>2.2.3</jackson.version>
@@ -81,21 +73,8 @@
 		<druid.version>1.0.15</druid.version>
 		<!-- jdbc -->
 		<mysql.version>5.1.36</mysql.version>
-		<!-- redis -->
-
-		<!-- <jedis.version>2.1.0</jedis.version> <spring-data-redis.version>1.0.2.RELEASE</spring-data-redis.version> -->
-
-		<jedis.version>2.8.0</jedis.version>
-		<spring-data-redis.version>1.7.2.RELEASE</spring-data-redis.version>
-		<!-- mongo -->
-		<mongo.version>2.9.3</mongo.version>
-		<spring_date_mongodb.version>1.5.1.RELEASE</spring_date_mongodb.version>
 
 
-		<!-- shiro libs -->
-		<shiro.version>1.2.2</shiro.version>
-		<shiro-ehcache.version>1.2.2</shiro-ehcache.version>
-		<shiro-quartz.version>1.2.2</shiro-quartz.version>
 
 		<!-- tools version setting -->
 		<pinyin4j.version>2.5.0</pinyin4j.version>
@@ -103,12 +82,8 @@
 		<commons-io.version>2.4</commons-io.version>
 		<commons-fileupload.version>1.3.2</commons-fileupload.version>
 
-
-		<!-- activemq -->
-		<activemq-all.version>5.11.0</activemq-all.version>
-
-		<!-- ehcache -->
-		<ehcache-core.version>2.5.0</ehcache-core.version>
+		<!-- swagger2 -->
+		<springfox-swagger.version>2.7.0</springfox-swagger.version>
 
 	</properties>
 
@@ -138,11 +113,6 @@
 			<version>${log4j.version}</version>
 		</dependency>
 
-		<!-- logback 测试中暂不使用 <dependency> <groupId>org.slf4j</groupId> <artifactId>jcl-over-slf4j</artifactId> 
-			<version>${jcl-over-slf4j.version}</version> </dependency> <dependency> <groupId>ch.qos.logback</groupId> 
-			<artifactId>logback-core</artifactId> <version>${logback-core.version}</version> 
-			</dependency> <dependency> <groupId>ch.qos.logback</groupId> <artifactId>logback-classic</artifactId> 
-			<version>${logback-classic.version}</version> </dependency> -->
 
 		<!-- json -->
 		<dependency>
@@ -270,13 +240,18 @@
 			<version>${commons-io.version}</version>
 		</dependency>
 
-		<!-- 文件上传 -->
+		<!--springfox的核心jar包-->
 		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>${commons-fileupload.version}</version>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>${springfox-swagger.version}</version>
 		</dependency>
-
+		<!--springfox-ui的jar包(里面包含了swagger的界面静态文件 /项目/swagger-ui.html)-->
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger-ui</artifactId>
+		    <version>${springfox-swagger.version}</version>
+		</dependency>
 		<!-- GENERAL UTILS end -->
 	</dependencies>
 </project>

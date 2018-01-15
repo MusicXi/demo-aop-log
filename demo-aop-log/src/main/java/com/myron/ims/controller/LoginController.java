@@ -1,4 +1,7 @@
 package com.myron.ims.controller;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +25,7 @@ import com.myron.ims.bean.User;
  * @author lin.r.x
  *
  */
+@Api(value = "/", tags = "系统登入接口")
 @Controller
 @RequestMapping("/")
 public class LoginController {
@@ -35,11 +39,6 @@ public class LoginController {
 	public static final String KEY_USER = "ims_user";
 	
 	
-//	@RequestMapping("/")
-//	public String index(HttpServletRequest request) throws Exception{		
-//		return LOGIN_PAGE;
-//	}
-//	
 	/**
 	 * 系统登入
 	 * @param username
@@ -50,6 +49,7 @@ public class LoginController {
 	 * @return
 	 * @throws WrongVerifyCodeException 
 	 */
+	@ApiOperation(value = "登入系统", notes = "登入系统", httpMethod = "POST")
 	@SystemControllerLog(description="登入系统")
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, ModelMap model,User user, Boolean rememberMe, String verifycode) throws Exception{		

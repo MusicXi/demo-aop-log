@@ -23,9 +23,6 @@
             http://code.alibabatech.com/schema/dubbo        
             http://code.alibabatech.com/schema/dubbo/dubbo.xsd"> 
             
-    <!-- 使用注解  扫描 @Reference  生成远程服务代理
-	<dubbo:annotation package="com.zefu.ims.controller" />
-    -->
 	<!-- 开启@Controller 注解扫描 -->
 	<context:component-scan base-package="com.myron.ims.controller"/>	
  
@@ -55,29 +52,12 @@
         </property>  
     </bean>      
     
-    <!-- springMVC file upload
-    <util:properties id="uploadProps" location="classpath:META-INF/config/upload.properties"/>
-	<bean id="multipartResolver"
-			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="#{uploadProps.maxUploadSize}"></property>
-		<property name="resolveLazily" value="#{uploadProps.resolveLazily}"></property>		
-	</bean>
-    -->
-    
-    <!-- 	开启shiro注解支持
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-		<property name="securityManager" ref="securityManager" />
-	</bean>
-	-->
-	
-	<!--  UnauthorizedException 拦截异常处理   暂时使用 @ControllerAdvice注解的 GlobalExceptionHandler 处理全局异常
-	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="exceptionMappings">
-			<props>
-				<prop key="org.apache.shiro.authz.UnauthorizedException">/unauthorized.do</prop>
-				
-			</props>
-		</property>
-	</bean>
-	-->
+	<!-- 配置Swagger相关静态资源 -->  
+    <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>  
+    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>  
+    <!-- 引用Swagger 默认配置
+    <bean class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" id="swagger2Config"/> 
+	 -->  
+	 <!-- Swagger 自定义配置 -->
+	<bean class="com.myron.ims.configuration.MySwaggerConfig"/> 
 </beans>
