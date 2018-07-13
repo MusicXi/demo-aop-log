@@ -9,3 +9,7 @@
 
 项目详细设计说明:http://blog.csdn.net/myron_007/article/details/54927529
 博客回复疑问不及时。如果有问题可以加临时群,439019717,把问题说明截图,贴下下去。解决完可以退出。
+
+### 补充
+swagger2经常作为接口文档生成工具, 可以和日志做一个整合。以后定义一个接口描述,就能够自动记录接口操作日志,很方便
+- 参考:https://github.com/MusicXi/demo-swagger2
