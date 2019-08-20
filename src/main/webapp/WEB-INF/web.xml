@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+
+	<!-- 处理编码问题 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<!-- <url-pattern>*.do</url-pattern> -->
+		<url-pattern>/*</url-pattern> 
+	</filter-mapping>
+	
+
+	<!--Spring MVC -->
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:META-INF/config/mvc/spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<!-- *.do 会拦截*.do的请求。-->
+		<!-- <url-pattern>*.do</url-pattern>  -->
+		<!-- /*会匹配所有url：路径型的和后缀型的url(包括/login,*.jsp,*.js和*.html等) -->
+		<!-- <url-pattern>/*</url-pattern>  -->
+		<!-- / 会匹配到/login这样的路径型url，不会匹配到模式为*.jsp这样的后缀型url -->
+		<url-pattern>/</url-pattern> 
+	</servlet-mapping>
+	<!-- Spring MVC End -->
+
+	<!-- 加载Spring容器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			<!-- 多个配置文件用","隔开 -->
+	  		classpath:META-INF/config/spring/spring-context.xml
+		</param-value>
+	</context-param>
+	<!-- request请求监听  结合下面代码使用
+		HttpServletRequest request = RequestContextHolder.currentRequestAttributes().getRequest();
+	 -->
+	<listener>  
+        <listener-class>  
+            org.springframework.web.context.request.RequestContextListener  
+        </listener-class>  
+	</listener> 
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>
