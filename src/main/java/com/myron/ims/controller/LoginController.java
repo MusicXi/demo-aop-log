@@ -1,23 +1,22 @@
 package com.myron.ims.controller;
+
+import com.myron.ims.annotation.SystemControllerLog;
+import com.myron.ims.bean.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.myron.ims.annotation.SystemControllerLog;
-import com.myron.ims.bean.User;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -31,55 +30,70 @@ import com.myron.ims.bean.User;
 public class LoginController {
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-	/** 登入页 */
-	public static final String LOGIN_PAGE = "/index.jsp";
-	/** 首页 */
-	public static final String MAIN_PAGE = "/main.jsp";
 	/** 用户session key */
 	public static final String KEY_USER = "ims_user";
 	
-	
+	@RequestMapping("/")
+	public String index(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute(KEY_USER);
+        model.addAttribute("user", user);
+        model.addAttribute("apiUrl", "/");
+		Map<String, Object> front = new HashMap<>();
+		// 前端资源版本--在<script><link>中使用变量
+/*		front.put("iview_css", "http://unpkg.com/iview/dist/styles/iview.css");
+		front.put("iview_js", "http://unpkg.com/iview/dist/iview.min.js");
+		front.put("vue_js", "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js");
+		front.put("axios_js", "https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js");*/
+		front.put("iview_css", "/static/dist/iview/style/iview.css");
+		front.put("iview_js", "/static/dist/iview/iview.min.js");
+		front.put("vue_js", "/static/dist/vue/vue.js");
+		front.put("axios_js", "/static/dist/axios/axios.min.js");
+		model.addAttribute("front", front);
+	    return "main";
+    }
 	/**
 	 * 系统登入
-	 * @param username
-	 * @param password
-	 * @param rememberMe
-	 * @param verifycode
-	 * @param req
-	 * @return
-	 * @throws WrongVerifyCodeException 
 	 */
 	@ApiOperation(value = "登入系统", notes = "登入系统", httpMethod = "POST")
-	@SystemControllerLog(description="登入系统")
-	@RequestMapping("/login")
-	public String login(HttpServletRequest request, ModelMap model,User user, Boolean rememberMe, String verifycode) throws Exception{		
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+    public Map<String, Object> login(@RequestBody User user, HttpServletRequest request) throws Exception{
 		//TODO 用户密码校验逻辑省略...
 		user.setId("0001");
-		//TODO 验证码...
-		
+
 		//登入成功
 		HttpSession session = request.getSession();       
 		session.setAttribute(KEY_USER, user);
 		logger.info("{} 登入系统成功!", user.getUsername());
-		model.addAttribute("user", user);
-		return MAIN_PAGE;
+        Map<String, Object> result = new HashMap<>();
+		result.put("code","success");
+		result.put("msg", "login success");
+		result.put("success", true);
+		result.put("data", user);
+		return result;
 	}
 	
 	/**
 	 * 安全退出登入
 	 * @return
 	 */
-	@SystemControllerLog(description="安全退出系统")
-	@RequestMapping("logout")
-	public String logout(HttpServletRequest request){
+	@ApiOperation(value = "安全退出系统", notes = "登入系统", httpMethod = "POST")
+	@RequestMapping("/logout")
+    @ResponseBody
+	public Map<String, Object> logout(HttpServletRequest request){
 		HttpSession session = request.getSession(); 
 		User user = (User) session.getAttribute(KEY_USER);
 		if (user != null) {
-			//TODO 模拟退出登入,直接清空sessioni
+			//TODO 模拟退出登入,直接清空session
 			logger.info("{} 退出系统成功!", user.getUsername());
 			session.removeAttribute(KEY_USER);			
 		}
-		return LOGIN_PAGE;
+        Map<String, Object> result = new HashMap<>();
+        result.put("code","success");
+        result.put("msg", "logout success");
+        result.put("success", true);
+        return result;
 	}
 	
 	

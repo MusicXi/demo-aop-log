@@ -1,0 +1,1 @@
+INSERT INTO `sys_log` (`log_id`, `type`, `title`, `ip`, `request_uri`, `method`, `params`, `exception`, `operate_date`, `timeout`, `login_name`, `request_id`, `data_snapshot`, `request_timestamp`, `status`) VALUES ('111', 'http', 'dfdfd', '1.1.1.1', '/hdhdh', 'get', NULL, NULL, '2019-08-30 10:00:12.000000', '1', NULL, NULL, NULL, NULL, NULL);

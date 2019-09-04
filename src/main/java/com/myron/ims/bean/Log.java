@@ -1,149 +1,115 @@
 package com.myron.ims.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 import java.io.Serializable;
-
-
-
-
-
-
-
 import java.util.Date;
-import java.util.Map;
-
-import com.myron.common.util.StringUtils;
-
 /**
- * 日志类-记录用户操作行为
- * @author lin.r.x
- *
+ * sys_log 日志表
+ * @author myron
+ * @date 2019/08/29 16:21:40
  */
+@TableName("sys_log")
+@Data
+@Builder
+@AllArgsConstructor
 public class Log implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
-	private String logId;			//日志主键	
-	private String type;			//日志类型	
-	private String title;			//日志标题	
-	private String remoteAddr;			//请求地址	
-	private String requestUri;			//URI	
-	private String method;			//请求方式	
-	private String params;			//提交参数	
-	private String exception;			//异常	
-	private Date operateDate;			//开始时间	
-	private String timeout;			//结束时间	
-	private String userId;			//用户ID	
-	
-    public String getLogId() {
-        return StringUtils.isBlank(logId) ? logId : logId.trim();
-    }
-    public void setLogId(String logId) {
-        this.logId = logId;
-    }
-    
-    
-    public String getType() {
-        return StringUtils.isBlank(type) ? type : type.trim();
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    
-    public String getTitle() {
-        return StringUtils.isBlank(title) ? title : title.trim();
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    
-    
-    public String getRemoteAddr() {
-        return StringUtils.isBlank(remoteAddr) ? remoteAddr : remoteAddr.trim();
-    }
-    public void setRemoteAddr(String remoteAddr) {
-        this.remoteAddr = remoteAddr;
-    }
-    
-    
-    public String getRequestUri() {
-        return StringUtils.isBlank(requestUri) ? requestUri : requestUri.trim();
-    }
-    public void setRequestUri(String requestUri) {
-        this.requestUri = requestUri;
-    }
-    
-    
-    public String getMethod() {
-        return StringUtils.isBlank(method) ? method : method.trim();
-    }
-    public void setMethod(String method) {
-        this.method = method;
-    }
-    
-    
-    public String getParams() {
-        return StringUtils.isBlank(params) ? params : params.trim();
-    }
-    public void setParams(String params) {
-        this.params = params;
-    }
-    
-	/**
-	 * 设置请求参数
-	 * @param paramMap
-	 */
-	public void setMapToParams(Map<String, String[]> paramMap) {
-		if (paramMap == null){
-			return;
-		}
-		StringBuilder params = new StringBuilder();
-		for (Map.Entry<String, String[]> param : ((Map<String, String[]>)paramMap).entrySet()){
-			params.append(("".equals(params.toString()) ? "" : "&") + param.getKey() + "=");
-			String paramValue = (param.getValue() != null && param.getValue().length > 0 ? param.getValue()[0] : "");
-			params.append(StringUtils.abbr(StringUtils.endsWithIgnoreCase(param.getKey(), "password") ? "" : paramValue, 100));
-		}
-		this.params = params.toString();
-	}
-    
-    
-    public String getException() {
-        return StringUtils.isBlank(exception) ? exception : exception.trim();
-    }
-    public void setException(String exception) {
-        this.exception = exception;
-    }
-    
-    
-    public Date getOperateDate() {
-        return operateDate;
-    }
-    public void setOperateDate(Date operateDate) {
-        this.operateDate = operateDate;
+    private static final long serialVersionUID = 1L;
+
+    /** 日志主键*/
+    @ApiModelProperty(value="日志主键")
+    @TableId(type = IdType.UUID)
+    private String logId;
+
+
+    /** 日志类型*/
+    @ApiModelProperty(value="日志类型")
+    private String type;
+
+    /** 日志标题*/
+    @ApiModelProperty(value="日志标题")
+    private String title;
+
+    /** 请求IP*/
+    @ApiModelProperty(value="请求IP")
+    private String ip;
+
+    /** URI*/
+    @ApiModelProperty(value="URI")
+    private String requestUri;
+
+    /** 请求方式*/
+    @ApiModelProperty(value="请求方式")
+    private String method;
+
+    /** 提交参数*/
+    @ApiModelProperty(value="提交参数")
+    private String params;
+
+    /** 异常*/
+    @ApiModelProperty(value="异常")
+    private String exception;
+
+    /** 操作时间*/
+    @ApiModelProperty(value="操作时间")
+    private Date operateDate;
+
+    /** 请求时长*/
+    @ApiModelProperty(value="请求时长")
+    private String timeout;
+
+    /** 用户登入名*/
+    @ApiModelProperty(value="用户登入名")
+    private String loginName;
+
+    /** requestID*/
+    @ApiModelProperty(value="requestID")
+    private String requestId;
+
+    /** 历史数据*/
+    @ApiModelProperty(value="历史数据")
+    private String dataSnapshot;
+
+    /** 请求时间戳*/
+    @ApiModelProperty(value="请求时间戳")
+    private Long requestTimestamp;
+
+    /** 日志状态*/
+    @ApiModelProperty(value="日志状态")
+    private Integer status;
+
+
+    public Log(){
+        super();
     }
 
-    
-    public String getTimeout() {
-        return StringUtils.isBlank(timeout) ? timeout : timeout.trim();
+
+
+    @Override
+    public String toString() {
+        return "Log ["
+                + "logId = " + logId
+                + ", type = " + type
+                + ", title = " + title
+                + ", ip = " + ip
+                + ", requestUri = " + requestUri
+                + ", method = " + method
+                + ", params = " + params
+                + ", exception = " + exception
+                + ", operateDate = " + operateDate
+                + ", timeout = " + timeout
+                + ", loginName = " + loginName
+                + ", requestId = " + requestId
+                + ", dataSnapshot = " + dataSnapshot
+                + ", requestTimestamp = " + requestTimestamp
+                + ", status = " + status
+                + "]";
     }
-    public void setTimeout(String timeout) {
-        this.timeout = timeout;
-    }
-    
-    
-    public String getUserId() {
-        return StringUtils.isBlank(userId) ? userId : userId.trim();
-    }
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-	@Override
-	public String toString() {
-		return "Log [logId=" + logId + ", type=" + type + ", title=" + title
-				+ ", remoteAddr=" + remoteAddr + ", requestUri=" + requestUri
-				+ ", method=" + method + ", params=" + params + ", exception="
-				+ exception + ", operateDate=" + operateDate + ", timeout="
-				+ timeout + ", userId=" + userId + "]";
-	}
-    
-    
+
 }

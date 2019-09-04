@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>测试aop日志</title>
+
+    <script type="text/javascript" th:src="${front.vue_js}"></script>
+    <script type="text/javascript" th:src="${front.axios_js}"></script>
+    <link th:href="${front.iview_css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="${front.iview_js}"></script>
+</head>
+<body>
+<div id="app-user"></div>
+
+<!--<p th:text="'Hello！, ' + ${user!=null?user.username:'请登入'} + '!'">用户名</p>-->
+
+
+<div id="app-log">
+    用户:{{user!=null?user.username:''}}
+    <a v-if="user!=null" @click="logout">[注销]</a>
+    <a v-else @click="modalShowLogAdd">[请登入]</a>
+
+
+    <!--<i-Button type="primary" @click="modalShowLogAdd">添加</i-Button>-->
+    <!--<i-Button type="primary" @click="batchDelete">删除</i-Button>-->
+    <!--<i-Button type="primary" @click="batchOperate">xxx批操作</i-Button>-->
+
+    <!--log 列表 -->
+    <i-table size="small" :columns="log.columns" :data="log.data" @on-selection-change="onSelectionChange"></i-table>
+
+    <!-- 分页操作-->
+    <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+            <Page show-total show-elevator show-sizer :total="log.total" :current="log.pageNum" :page-size="log.pagSize"
+                  @on-change="logChangePage" @on-page-size-change="logChangePageSize"></Page>
+        </div>
+    </div>
+
+    <!-- 添加模态框-->
+    <Modal
+            v-model="log.form.isAddModalShow"
+            title="登入">
+
+        <i-Form ref="formInline" :model="formInline" :rules="ruleInline" class="login">
+            <Form-Item prop="username">
+                <i-Input type="text" v-model="formInline.username" placeholder="Username">
+                    <Icon type="ios-person-outline" slot="prepend"></Icon>
+                </i-Input>
+            </Form-Item>
+            <Form-Item prop="password">
+                <i-Input type="password" v-model="formInline.password" placeholder="Password">
+                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                </i-Input>
+            </Form-Item>
+<!--            <Form-Item>
+                <i-Button type="primary" @click="handleSubmit('formInline')" long>Signin</i-Button>
+            </Form-Item>-->
+        </i-Form>
+
+        <div slot="footer">
+            <i-Button type="primary" @click="handleSubmit('formInline')" long>Signin</i-Button>
+        </div>
+    </Modal>
+
+    <Modal
+            v-model="log.form.isEditModalShow"
+            title="Edit Log"
+            @on-ok="logEdit"
+            @on-cancel="handleResetFields('formEditLog')">
+        <i-Form ref="formEditLog" :model="log.form.model" :label-width="80">
+            <Form-Item label="日志主键">
+                <i-Input v-model="log.form.model.logId" placeholder="Enter logId..."></i-Input>
+            </Form-Item>
+            <Form-Item label="日志类型">
+                <i-Input v-model="log.form.model.type" placeholder="Enter type..."></i-Input>
+            </Form-Item>
+            <Form-Item label="日志标题">
+                <i-Input v-model="log.form.model.title" placeholder="Enter title..."></i-Input>
+            </Form-Item>
+            <Form-Item label="请求IP">
+                <i-Input v-model="log.form.model.ip" placeholder="Enter ip..."></i-Input>
+            </Form-Item>
+            <Form-Item label="URI">
+                <i-Input v-model="log.form.model.requestUri" placeholder="Enter requestUri..."></i-Input>
+            </Form-Item>
+            <Form-Item label="请求方式">
+                <i-Input v-model="log.form.model.method" placeholder="Enter method..."></i-Input>
+            </Form-Item>
+            <Form-Item label="提交参数">
+                <i-Input v-model="log.form.model.params" placeholder="Enter params..."></i-Input>
+            </Form-Item>
+            <Form-Item label="异常">
+                <i-Input v-model="log.form.model.exception" placeholder="Enter exception..."></i-Input>
+            </Form-Item>
+            <Form-Item label="操作时间">
+                <i-Input v-model="log.form.model.operateDate" placeholder="Enter operateDate..."></i-Input>
+            </Form-Item>
+            <Form-Item label="请求时长">
+                <i-Input v-model="log.form.model.timeout" placeholder="Enter timeout..."></i-Input>
+            </Form-Item>
+            <Form-Item label="用户登入名">
+                <i-Input v-model="log.form.model.loginName" placeholder="Enter loginName..."></i-Input>
+            </Form-Item>
+            <Form-Item label="requestID">
+                <i-Input v-model="log.form.model.requestId" placeholder="Enter requestId..."></i-Input>
+            </Form-Item>
+            <Form-Item label="历史数据">
+                <i-Input v-model="log.form.model.dataSnapshot" placeholder="Enter dataSnapshot..."></i-Input>
+            </Form-Item>
+            <Form-Item label="请求时间戳">
+                <i-Input v-model="log.form.model.requestTimestamp" placeholder="Enter requestTimestamp..."></i-Input>
+            </Form-Item>
+            <Form-Item label="日志状态">
+                <i-Input v-model="log.form.model.status" placeholder="Enter status..."></i-Input>
+            </Form-Item>
+        </i-Form>
+    </Modal>
+</div>
+
+
+<!-- 在js中使用模板变量 带有模板的入口页面 -->
+<script type="text/javascript" th:inline="javascript">
+    var user = [[${user}]];
+    var apiUrl = [[${apiUrl}]];
+    console.log(user);
+    console.log(apiUrl);
+    window.globalConfig = {
+        user:[[${user}]]
+    }
+    //全局变量
+    Vue.prototype.baseUrl = "http://localhost:8080/";
+
+    Date.prototype.Format = function (fmt) { //
+        let o = {
+            "M+": this.getMonth() + 1,                 //月份
+            "d+": this.getDate(),                    //日
+            "h+": this.getHours(),                   //小时
+            "m+": this.getMinutes(),                 //分
+            "s+": this.getSeconds(),                 //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds()             //毫秒
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+
+    //封装axios
+    const instance = axios.create({
+        baseURL: Vue.prototype.baseUrl,
+        timeout: 1000000,
+        withCredentials: true//跨域
+    });
+    // 添加响应拦截器
+    instance.interceptors.response.use(function (response) {
+        // 对响应数据做点什么
+        return response;
+    }, function (error) {
+        // 对响应错误做点什么
+        if (error.status == 403) {
+            logVM.log.form.isAddModalShow=true;
+            window.globalConfig.user="";
+        }
+        return Promise.reject(error);
+    });
+    // 添加请求拦截器
+    instance.interceptors.request.use(
+        config => {
+            var timestamp = new Date().getTime();
+            config.headers ={
+                ...config.headers,
+                "timestamp" : timestamp
+            }
+            return config
+        }, function (error) {
+            return Promise.reject(error)
+        }
+    );
+
+    Vue.prototype.axios = instance;
+
+    var logVM = new Vue({
+        el: '#app-log',
+        data: {
+            user:window.globalConfig.user,
+            formInline: {
+                username: '',
+                password: ''
+            },
+            ruleInline: {
+                username: [
+                    { required: true, message: 'Please fill in the user name', trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, message: 'Please fill in the password.', trigger: 'blur' },
+//                    { type: 'string', min: 6, message: 'The password length cannot be less than 6 bits', trigger: 'blur' }
+                ]
+            },
+            log: {
+                // 列表数据
+                data: [],
+                pageNum: 1,
+                pageSize: 10,
+                total: 10,
+                columns: [
+                    // 行勾选框
+                    {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+//                    {title: '日志主键', key: 'logId'},
+                    {title: '日志类型', key: 'type'},
+                    {title: '日志标题', key: 'title'},
+                    {title: '请求IP', key: 'ip'},
+                    {title: 'URI', key: 'requestUri'},
+                    {title: '请求方式', key: 'method'},
+                    {title: '提交参数', key: 'params'},
+                    {title: '异常', key: 'exception'},
+                    {
+                        title: '操作时间', key: 'operateDate',
+                        render: function (h, params) {
+                            var time = this.row.operateDate != undefined ? new Date(this.row.operateDate).Format('yyyy-MM-dd hh:mm:ss') : "";
+                            return h('div', time);
+                        }
+                    },
+                    {title: '请求时长', key: 'timeout'},
+                    {title: '用户名', key: 'loginName'},
+                    {title: 'requestID', key: 'requestId'},
+//                    {title: '历史数据', key: 'dataSnapshot'},
+//                    {title: '请求时间戳', key: 'requestTimestamp'},
+                    {title: '日志状态', key: 'status'}],
+                // 被选中行
+                selectedItem:[],
+                // 查询表单模型
+                formSearch:{
+                    model:{
+                        logId: '',
+                        type: '',
+                        title: '',
+                        ip: '',
+                        requestUri: '',
+                        method: '',
+                        params: '',
+                        exception: '',
+//                        operateDate: '',
+                        timeout: '',
+                        loginName: '',
+                        requestId: '',
+                        dataSnapshot: '',
+                        requestTimestamp: '',
+                        status: ''
+                    }
+                },
+                // 添加/修改表单模型
+                form:{
+                    isEditModalShow:false,
+                    isAddModalShow:false,
+                    model:{
+                        logId: '',
+                        type: '',
+                        title: '',
+                        ip: '',
+                        requestUri: '',
+                        method: '',
+                        params: '',
+                        exception: '',
+                        operateDate: '',
+                        timeout: '',
+                        loginName: '',
+                        requestId: '',
+                        dataSnapshot: '',
+                        requestTimestamp: '',
+                        status: ''
+                    }
+                }
+            }
+
+    },
+    created: function () {
+        if (this.currentUser() != null) {
+            this.loadLogs(this.log.pageNum, this.log.pageSize);
+        }
+    }
+    ,
+    methods: {
+        currentUser: function() {
+           return this.user;
+        },
+        cleanCurrentUser: function () {
+            this.user = null;
+            window.globalConfig.user="";
+        },
+        // 重置表单
+        handleResetFields(name)
+        {
+            var vm = this;
+            this.$refs[name].resetFields();
+        }
+    ,
+        // 提交查询
+        handleSearchSubmit()
+        {
+            this.loadLogs(0, this.log.pageSize);
+        }
+    ,
+        //分页加载数据
+        loadLogs: function (pageNum, pageSize) {
+            var vm = this;
+            var params = {pageNum: pageNum, pageSize: pageSize};
+            Object.assign(params, this.log.formSearch.model);
+            this.axios.get('log/listByPage', {
+                params: params
+            }).then(function (response) {
+                vm.log.data = response.data.data;
+                vm.log.total = response.data.total;
+            })
+        }
+    ,
+        //页码变更
+        logChangePage:function (val) {
+            this.log.pageNum = val;
+            this.loadLogs(this.log.pageNum, this.log.pageSize);
+            console.log(val);
+        }
+    ,
+        //页大小变更
+        logChangePageSize:function (val) {
+            this.log.pageSize = val;
+            this.loadLogs(this.log.pageNum, this.log.pageSize);
+            console.log(val);
+        }
+    ,
+        // 添加数据
+        logAdd: function () {
+            var vm = this
+            this.axios.get('login', {
+                params:{username: vm.formInline.username, password:vm.formInline.password}
+            }).then(function (response) {
+                var result = response.data;
+                if (result.success) {
+                        vm.$Message.success(result.msg);
+                } else {
+                    vm.$Message.warning(result.msg);
+                }
+            })
+                .catch(function (error) {
+                    vm.$Message.error('Fail!' + error.data.msg);
+                })
+        }
+    ,
+        // 修改数据
+        logEdit: function () {
+            var vm = this;
+            var model = vm.log.form.model;
+            this.axios.post('log/edit', {
+                logId: model.logId,
+                type: model.type,
+                title: model.title,
+                ip: model.ip,
+                requestUri: model.requestUri,
+                method: model.method,
+                params: model.params,
+                exception: model.exception,
+                operateDate: model.operateDate,
+                timeout: model.timeout,
+                loginName: model.loginName,
+                requestId: model.requestId,
+                dataSnapshot: model.dataSnapshot,
+                requestTimestamp: model.requestTimestamp,
+                status: model.status
+            }).then(function (response) {
+                vm.$Modal.success({
+                    title: '提示',
+                    content: response.data.msg
+                });
+                vm.loadLogs(vm.log.pageNum, vm.log.pageSize);
+            }).catch(function (error) {
+                vm.$Modal.warning({
+                    title: '提示',
+                    content: error.data.msg
+                });
+            })
+        }
+    ,
+        // 显示详情
+        logShow(index)
+        {
+            var record = this.log.data[index];
+            this.$Modal.info({
+                title: 'log Info',
+                content: `内容省略`
+            })
+        }
+    ,
+        // 删除记录
+        logRemove(index)
+        {
+            var vm = this;
+            var record = this.log.data[index];
+            this.log.data.splice(index, 1);
+            this.axios.delete('log/delete', {
+                params: {
+                    logId: record.logId,
+                    type: record.type,
+                    title: record.title,
+                    ip: record.ip,
+                    requestUri: record.requestUri,
+                    method: record.method,
+                    params: record.params,
+                    exception: record.exception,
+                    operateDate: record.operateDate,
+                    timeout: record.timeout,
+                    loginName: record.loginName,
+                    requestId: record.requestId,
+                    dataSnapshot: record.dataSnapshot,
+                    requestTimestamp: record.requestTimestamp,
+                    status: record.status
+                }
+            }).then(function (response) {
+                if (response.data.success) {
+                    vm.$Modal.success({
+                        title: '提示',
+                        content: response.data.msg
+                    });
+                } else {
+                    vm.$Modal.warning({
+                        title: '提示',
+                        content: response.data.msg
+                    });
+                    vm.loadLogs(vm.log.pageNum, vm.log.pageSize);
+                }
+            })
+        }
+    ,
+        // 多选数据变化,批量删除依赖
+        onSelectionChange(selection)
+        {
+            this.log.selectedItem = selection;
+            console.log(selection);
+        }
+    ,
+        // 批量删除
+        batchDelete()
+        {
+            var vm = this;
+            var records = this.log.selectedItem;
+            this.axios.delete('log/batchDelete', {
+                data: records
+            }).then(function (response) {
+                if (response.data.success) {
+                    vm.$Modal.success({
+                        title: '提示',
+                        content: response.data.msg
+                    });
+                } else {
+                    vm.$Modal.warning({
+                        title: '提示',
+                        content: response.data.msg
+                    });
+                }
+                vm.loadLogs(vm.log.pageNum, vm.log.pageSize);
+            })
+        }
+    ,
+        // xxx批量操作
+        batchOperate()
+        {
+            var vm = this;
+            var records = this.log.selectedItem;
+            vm.$Modal.warning({
+                title: '提示',
+                content: JSON.stringify(records) + '<br>后端需要实现/batchOperate接口'
+            });
+            this.axios.post('log/batchOperate', records).then(function (response) {
+                if (response.data.success) {
+                    vm.$Modal.success({
+                        title: '提示',
+                        content: response.data.msg
+                    });
+                } else {
+                    vm.$Modal.warning({
+                        title: '提示',
+                        content: response.data.msg
+                    });
+                }
+                vm.loadLogs(vm.log.pageNum, vm.log.pageSize);
+            })
+        }
+    ,
+
+        // 模态添加框显示
+        modalShowLogAdd()
+        {
+            this.log.form.isAddModalShow = true;
+        }
+    ,
+        // 模态编辑框显示
+        modalShowLogEdit(index)
+        {
+            var record = this.log.data[index];
+            var model = this.log.form.model;
+            model.logId = record.logId;
+            model.type = record.type;
+            model.title = record.title;
+            model.ip = record.ip;
+            model.requestUri = record.requestUri;
+            model.method = record.method;
+            model.params = record.params;
+            model.exception = record.exception;
+            model.operateDate = record.operateDate;
+            model.timeout = record.timeout;
+            model.loginName = record.loginName;
+            model.requestId = record.requestId;
+            model.dataSnapshot = record.dataSnapshot;
+            model.requestTimestamp = record.requestTimestamp;
+            model.status = record.status;
+            this.log.form.isEditModalShow = true;
+        },
+
+
+        handleSubmit(name) {
+            var vm = this;
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+//                        this.$Message.success('Success!');
+                    vm.login();
+                } else {
+//                        this.$Message.error('Fail!');
+                }
+            })
+        },
+        login: function () {
+            var vm = this
+            this.axios.post('login', {
+                username: vm.formInline.username, password:vm.formInline.password
+            }).then(function (response) {
+                var result = response.data;
+                if (result.success) {
+                    vm.user = result.data;
+                    vm.log.form.isAddModalShow = false;
+                    vm.loadLogs(0, vm.log.pageSize);
+                    vm.$Message.success(result.msg);
+                } else {
+                    vm.$Message.warning(result.msg);
+                }
+            })
+        },
+
+        // 注销登入
+        logout: function () {
+            var vm = this;
+            this.axios.post('logout').then(function (response) {
+                var result = response.data;
+                if (result.success) {
+                    vm.cleanCurrentUser()
+//                    vm.loadLogs(0, this.log.pageSize);
+                    vm.$Message.success(result.msg);
+                } else {
+                    vm.$Message.warning(result.msg);
+                }
+            })
+                .catch(function (error) {
+                    vm.$Message.error('Fail!' + error.data.msg);
+                })
+        }
+    }
+    })
+
+</script>
+
+
+</body>
+</html>
