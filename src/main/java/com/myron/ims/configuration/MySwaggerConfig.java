@@ -1,5 +1,6 @@
 package com.myron.ims.configuration;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -20,11 +21,11 @@ public class MySwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.any()).build().apiInfo(apiInfo());
+				.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).build().apiInfo(apiInfo());
 	}
 
 	private ApiInfo apiInfo() {
-		Contact contact = new Contact("Lin rx", "https://dddd", "792331407@qq.com");
+		Contact contact = new Contact("myron", "https://dddd", "xxx@qq.com");
 		return new ApiInfoBuilder()
 			.title("AOP日志测试项目接口文档")
 			.description("XXX项目接口测试")

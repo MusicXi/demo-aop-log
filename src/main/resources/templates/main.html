@@ -16,14 +16,22 @@
 
 
 <div id="app-log">
-    用户:{{user!=null?user.username:''}}
-    <a v-if="user!=null" @click="logout">[注销]</a>
+    <Avatar size="small" shape="square" icon="ios-person" v-if="user!=null"></Avatar>{{user!=null?user.username:''}}
+    <span v-if="user!=null">
+        <a  @click="logout">[注销]</a>
+        <a  @click="logout">[重置密码]</a>
+    </span>
     <a v-else @click="modalShowLogAdd">[请登入]</a>
 
+    <Divider orientation="left">测试修改用户信息记录日志</Divider>
+    <form>
+        姓名:<input type="text" name="name">
+        邮箱:<input type="text" name="name">
+        手机:<input type="text" name="name">
+        <Button  type="info">修改</Button>
+    </form>
 
-    <!--<i-Button type="primary" @click="modalShowLogAdd">添加</i-Button>-->
-    <!--<i-Button type="primary" @click="batchDelete">删除</i-Button>-->
-    <!--<i-Button type="primary" @click="batchOperate">xxx批操作</i-Button>-->
+    <Divider orientation="left">日志信息系统登入后可见</Divider>
 
     <!--log 列表 -->
     <i-table size="small" :columns="log.columns" :data="log.data" @on-selection-change="onSelectionChange"></i-table>
@@ -62,59 +70,6 @@
         </div>
     </Modal>
 
-    <Modal
-            v-model="log.form.isEditModalShow"
-            title="Edit Log"
-            @on-ok="logEdit"
-            @on-cancel="handleResetFields('formEditLog')">
-        <i-Form ref="formEditLog" :model="log.form.model" :label-width="80">
-            <Form-Item label="日志主键">
-                <i-Input v-model="log.form.model.logId" placeholder="Enter logId..."></i-Input>
-            </Form-Item>
-            <Form-Item label="日志类型">
-                <i-Input v-model="log.form.model.type" placeholder="Enter type..."></i-Input>
-            </Form-Item>
-            <Form-Item label="日志标题">
-                <i-Input v-model="log.form.model.title" placeholder="Enter title..."></i-Input>
-            </Form-Item>
-            <Form-Item label="请求IP">
-                <i-Input v-model="log.form.model.ip" placeholder="Enter ip..."></i-Input>
-            </Form-Item>
-            <Form-Item label="URI">
-                <i-Input v-model="log.form.model.requestUri" placeholder="Enter requestUri..."></i-Input>
-            </Form-Item>
-            <Form-Item label="请求方式">
-                <i-Input v-model="log.form.model.method" placeholder="Enter method..."></i-Input>
-            </Form-Item>
-            <Form-Item label="提交参数">
-                <i-Input v-model="log.form.model.params" placeholder="Enter params..."></i-Input>
-            </Form-Item>
-            <Form-Item label="异常">
-                <i-Input v-model="log.form.model.exception" placeholder="Enter exception..."></i-Input>
-            </Form-Item>
-            <Form-Item label="操作时间">
-                <i-Input v-model="log.form.model.operateDate" placeholder="Enter operateDate..."></i-Input>
-            </Form-Item>
-            <Form-Item label="请求时长">
-                <i-Input v-model="log.form.model.timeout" placeholder="Enter timeout..."></i-Input>
-            </Form-Item>
-            <Form-Item label="用户登入名">
-                <i-Input v-model="log.form.model.loginName" placeholder="Enter loginName..."></i-Input>
-            </Form-Item>
-            <Form-Item label="requestID">
-                <i-Input v-model="log.form.model.requestId" placeholder="Enter requestId..."></i-Input>
-            </Form-Item>
-            <Form-Item label="历史数据">
-                <i-Input v-model="log.form.model.dataSnapshot" placeholder="Enter dataSnapshot..."></i-Input>
-            </Form-Item>
-            <Form-Item label="请求时间戳">
-                <i-Input v-model="log.form.model.requestTimestamp" placeholder="Enter requestTimestamp..."></i-Input>
-            </Form-Item>
-            <Form-Item label="日志状态">
-                <i-Input v-model="log.form.model.status" placeholder="Enter status..."></i-Input>
-            </Form-Item>
-        </i-Form>
-    </Modal>
 </div>
 
 
@@ -128,7 +83,7 @@
         user:[[${user}]]
     }
     //全局变量
-    Vue.prototype.baseUrl = "http://localhost:8080/";
+    Vue.prototype.baseUrl = "/";
 
     Date.prototype.Format = function (fmt) { //
         let o = {
