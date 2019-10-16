@@ -15,5 +15,5 @@ spring:
       content-type: text/html
     cache: false
 logging:
-  level:
-    com.myron: debug
+  config: classpath:logging-spring.xml
+

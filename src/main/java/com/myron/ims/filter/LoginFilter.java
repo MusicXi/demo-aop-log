@@ -1,6 +1,8 @@
 package com.myron.ims.filter;
 
 import com.myron.ims.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import javax.servlet.*;
@@ -15,6 +17,7 @@ import java.io.PrintWriter;
  * Created by linrx1 on 2019/9/4.
  */
 public class LoginFilter implements Filter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
     /**
      * 不需要被过滤器拦截的页面 ，主要用于静态资源的放行
      * 在web.xml中配置filter的init-param
@@ -26,6 +29,7 @@ public class LoginFilter implements Filter {
         // 初始化时读取web.xml中配置的init-param
         excludedPaths = filterConfig.getInitParameter("excludedPaths");
         if(StringUtils.isNotBlank(excludedPaths)){
+            LOGGER.info("不拦截的资源请求:{}", excludedPaths);
             excludedPathArray = excludedPaths.split(",");
         }
     }

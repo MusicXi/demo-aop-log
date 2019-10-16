@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <property name="LOG_HOME" value="./target/log" />
+    <!--每天生成一个日志文件，只保存7天的日志文件。-->
+    <appender name="dailyFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/demo-aop-log_daily.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--归档日志压缩zip-->
+            <!--<fileNamePattern>${LOG_HOME}/demo-aop-log_daily.%d{yyyy-MM-dd}.log.zip</fileNamePattern>-->
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %X{requestId} %X{localIp} %X{uri} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--additivity="false" 表示只用当前logger的appender-ref-->
+    <logger name="com.myron" additivity="true" level="info">
+        <appender-ref ref="dailyFile" />
+    </logger>
+
+    <!-- root -->
+    <root  level="warn">
+        <!--<appender-ref ref="dailyFile" />-->
+    </root>
+</configuration>
