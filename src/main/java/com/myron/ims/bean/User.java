@@ -1,198 +1,80 @@
 package com.myron.ims.bean;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-
-
 /**
- * 用户类
- * @author lin.r.x
- *
+ * sys_user 用户信息
+ * @author myron
+ * @date 2020/02/27 16:31:50
  */
+@Data
+@Builder
+@AllArgsConstructor
+@TableName("sys_user")
 public class User implements Serializable{
-
 	private static final long serialVersionUID = 1L;
 
-	private String id; // 工号
-	private String username; // 账号
-	private String name; // 姓名
-	private String password; // 密码
-	private String sex; // 性别
-	private String email; // 邮箱
-	private String phone; // 手机
-	private Boolean locked; // 是否被锁定
-	private String organizationId;// 部门ID仅用户接受参数
-	
+	/** 用户ID*/
+	@ApiModelProperty(value="用户ID")
+	@TableId
+	private String userId;
 
 
+	/** 机构ID*/
+	@ApiModelProperty(value="机构ID")
+	private String organizationId;
 
-	private String loginIp; // 最后登入IP
-	private String loginDate; // 最后登入日期
-	private String photo; // 头像
+	/** 用户名*/
+	@ApiModelProperty(value="用户名")
+	private String username;
 
-	private String oldLoginIp; // 上次登入IP
-	private String oldLoginDate;// 上次登入日期
-	
-	private String createBy;	//创建者ID
-	private String updateBy;	//更新者ID
-	private Date createDate;	// 创建日期
+	/** 姓名*/
+	@ApiModelProperty(value="姓名")
+	private String name;
 
-	private Date updateDate;	// 更新日期
+	/** 密码*/
+	@ApiModelProperty(value="密码")
+	private String password;
 
-	
+	/** 性别*/
+	@ApiModelProperty(value="性别")
+	private String sex;
 
-	public String getId() {
-		return id;
+	/** 手机*/
+	@ApiModelProperty(value="手机")
+	private String phone;
+
+	/** 邮件*/
+	@ApiModelProperty(value="邮件")
+	private String email;
+
+	/** 创建日期*/
+	@ApiModelProperty(value="创建日期")
+	private Date createDate;
+
+	/** 创建人ID*/
+	@ApiModelProperty(value="创建人ID")
+	private String createBy;
+
+	/** 是否被锁定*/
+	@ApiModelProperty(value="是否被锁定")
+	private Integer locked;
+
+	/** 最后登入IP*/
+	@ApiModelProperty(value="最后登入IP")
+	private String loginIp;
+
+	/** 最后登入日期*/
+	@ApiModelProperty(value="最后登入日期")
+	private Date loginDate;
+
+	public User() {
 	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getUpdateBy() {
-		return updateBy;
-	}
-
-	public void setUpdateBy(String updateBy) {
-		this.updateBy = updateBy;
-	}
-
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username == null ? null : username.trim();
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name == null ? null : name.trim();
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password == null ? null : password.trim();
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex == null ? null : sex.trim();
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone == null ? null : phone.trim();
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email == null ? null : email.trim();
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public String getCreateBy() {
-		return createBy;
-	}
-
-	public void setCreateBy(String createBy) {
-		this.createBy = createBy == null ? null : createBy.trim();
-	}
-
-	public String getOrganizationId() {
-		return organizationId;
-	}
-
-	public void setOrganizationId(String organizationId) {
-		this.organizationId = organizationId; 
-
-
-	}
-	
-	
-
-	public Boolean getLocked() {
-		return locked;
-	}
-
-	public void setLocked(Boolean locked) {
-		this.locked = locked;
-	}
-
-	public String getLoginIp() {
-		return loginIp;
-	}
-
-	public void setLoginIp(String loginIp) {
-		this.loginIp = loginIp;
-	}
-
-	public String getLoginDate() {
-		return loginDate;
-	}
-
-	public void setLoginDate(String loginDate) {
-		this.loginDate = loginDate;
-	}
-
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
-
-	public String getOldLoginIp() {
-		return oldLoginIp;
-	}
-
-	public void setOldLoginIp(String oldLoginIp) {
-		this.oldLoginIp = oldLoginIp;
-	}
-
-	public String getOldLoginDate() {
-		return oldLoginDate;
-	}
-
-	public void setOldLoginDate(String oldLoginDate) {
-		this.oldLoginDate = oldLoginDate;
-	}
-	
-	@Override
-	public String toString() {
-		return "user:" + id;
-	}
-
-
 }

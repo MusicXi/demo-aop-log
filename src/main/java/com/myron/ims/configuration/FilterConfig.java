@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * //order的数值越小 则优先级越高
- * Created by linrx1 on 2019/8/29.
+ * filter order的数值越小 则优先级越高
+ * @author myron
  */
 @Configuration
-public class LogCongfig {
+public class FilterConfig {
     @Bean
     public HttpRequestMDCFilter httpRequestMDCFilter() {
         return new HttpRequestMDCFilter();
@@ -32,6 +32,7 @@ public class LogCongfig {
         registrationBean.addInitParameter("mappedParameters", "true");
         registrationBean.addInitParameter("mappedCookies", "true");
         registrationBean.setOrder(1);
+        registrationBean.setName("httpRequestMDCFilter[日志记录]");
         return registrationBean;
     }
 
@@ -40,8 +41,9 @@ public class LogCongfig {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(loginFilter());
         registrationBean.addUrlPatterns("/*");
-        registrationBean.addInitParameter("excludedPaths", "/,/login,*.css,*.js,*.ico,*.ttf,*.woff");
+        registrationBean.addInitParameter("excludedPaths", "/,/login,*.css,*.js,*.ico,*.ttf,*.woff,*.map");
         registrationBean.setOrder(2);
+        registrationBean.setName("loginFilter[身份认证]");
         return registrationBean;
     }
 }

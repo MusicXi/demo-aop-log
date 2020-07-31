@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <!-- 默认的CONSOLE/FILE appender-->
+    <!-- <include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+    <!-- 提供颜色支持-->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
     <property name="LOG_HOME" value="./target/log" />
     <!--每天生成一个日志文件，只保存7天的日志文件。-->
     <appender name="dailyFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -11,16 +14,28 @@
             <maxHistory>7</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %X{requestId} %X{localIp} %X{uri} - %msg%n</pattern>
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %X{requestId} %X{localIp} %X{uri} - %msg%n</pattern>-->
+            <pattern>%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] [%X{requestId}] [%X{localIp}] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</pattern>
         </encoder>
     </appender>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} [%X{requestId}] [%X{localIp}] %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</pattern>
+        </encoder>
+    </appender>
+
+
     <!--additivity="false" 表示只用当前logger的appender-ref-->
     <logger name="com.myron" additivity="true" level="info">
+        <appender-ref ref="console" />
         <appender-ref ref="dailyFile" />
     </logger>
-
+    <logger name="com.myron.ims.mapper" level="info"></logger>
+    <logger name="org.springframework.boot.web" level="debug"></logger>
+    <logger name="com.myron.ims" level="debug"></logger>
     <!-- root -->
-    <root  level="warn">
+    <root  level="info">
         <!--<appender-ref ref="dailyFile" />-->
     </root>
 </configuration>

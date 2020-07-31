@@ -1,6 +1,7 @@
 package com.myron.ims;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.myron.ims.bean.Log;
 import com.myron.ims.mapper.LogMapper;
 import org.slf4j.Logger;
@@ -25,9 +26,11 @@ public class MyApplicationRunner implements ApplicationRunner {
     private TomcatServletWebServerFactory tomcatServletWebServerFactory;
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-//        System.out.println(("----- this.logMapper.selectList method test ------"));
-//        List<Log> logList = this.logMapper.selectList(new QueryWrapper<>());
-//        logList.forEach(System.out::println);
+        Log param = new Log();
+        param.setTitle("测试数据");
+        this.logMapper.update(param,new UpdateWrapper<Log>().lambda().isNotNull(Log::getLogId));
+        List<Log> logList = this.logMapper.selectList(new QueryWrapper<>());
+        logList.forEach(System.out::println);
         this.showUrl();
     }
 

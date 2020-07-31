@@ -38,29 +38,34 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        HttpSession httpSession = request.getSession();
-        Object user = httpSession.getAttribute("ims_user");
-        // 所有请求数据接口未的登入认证json返回
-        String uri = request.getRequestURI();
+
         // 判断是否是直接放行的请求
-        if (user == null && !isFilterExcludeRequest(request)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            PrintWriter out = servletResponse.getWriter();
-            out.println("{\"success\":false,\"msg\":\"Access denied, please login again\",\"code\":\"USER_ACCESS_DENIED\"}");
-            out.flush();
-            out.close();
-        } else {
+        if (isFilterExcludeRequest(request)) {
+            String uri = request.getRequestURI();
+            LOGGER.debug("ignore uri[{}]", uri);
             filterChain.doFilter(servletRequest, servletResponse);
+        } else {
+            HttpSession httpSession = request.getSession();
+            Object user = httpSession.getAttribute("ims_user");
+            // 所有请求数据接口未的登入认证json返回
+            if (user == null) {
+                LOGGER.info("uri[{}] 用户身份认证失败", request.getRequestURI());
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                PrintWriter out = servletResponse.getWriter();
+                out.println("{\"success\":false,\"msg\":\"Access denied, please login again\",\"code\":\"USER_ACCESS_DENIED\"}");
+                out.flush();
+                out.close();
+            } else {
+                LOGGER.info("[{}] is ok", request.getRequestURI());
+                filterChain.doFilter(servletRequest, servletResponse);
+            }
         }
-/*        if (user == null && !"/".equals(uri) && !"/login".equals(uri)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-            PrintWriter out = servletResponse.getWriter();
-            out.println("{\"success\":false,\"msg\":\"Access denied, please login again\",\"code\":\"USER_ACCESS_DENIED\"}");
-            out.flush();
-            out.close();
-        } else {
-            filterChain.doFilter(servletRequest, servletResponse);
-        }*/
+
+    }
+
+    @Override
+    public void destroy() {
+
     }
 
     /**

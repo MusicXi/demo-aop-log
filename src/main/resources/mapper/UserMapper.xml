@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//templates.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace用于接口绑定-->
+<mapper namespace="com.myron.ims.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.myron.ims.bean.User">
+        <id column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="CHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <result column="locked" property="locked" jdbcType="INTEGER" />
+        <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+        <result column="login_date" property="loginDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <resultMap id="DataResultMap" type="java.util.Map">
+        <id column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="CHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <result column="locked" property="locked" jdbcType="INTEGER" />
+        <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
+        <result column="login_date" property="loginDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        t.user_id ,
+        t.organization_id ,
+        t.username ,
+        t.name ,
+        t.password ,
+        t.sex ,
+        t.phone ,
+        t.email ,
+        t.create_date ,
+        t.create_by ,
+        t.locked ,
+        t.login_ip ,
+        t.login_date
+    </sql>
+
+
+
+</mapper>

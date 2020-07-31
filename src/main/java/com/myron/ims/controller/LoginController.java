@@ -2,10 +2,12 @@ package com.myron.ims.controller;
 
 import com.myron.ims.annotation.SystemControllerLog;
 import com.myron.ims.bean.User;
+import com.myron.ims.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,13 +31,15 @@ import java.util.Map;
 @Controller
 @RequestMapping("/")
 public class LoginController {
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
 	/** 用户session key */
 	public static final String KEY_USER = "ims_user";
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/")
-	public String index(HttpServletRequest request, ModelMap model) {
+	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(KEY_USER);
         model.addAttribute("user", user);
@@ -58,14 +63,15 @@ public class LoginController {
 	@ApiOperation(value = "登入系统", notes = "登入系统", httpMethod = "POST")
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-    public Map<String, Object> login(@RequestBody User user, HttpServletRequest request) throws Exception{
+    public Map<String, Object> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		//TODO 用户密码校验逻辑省略...
-		user.setId("0001");
-
+		user.setUserId("NO" + System.currentTimeMillis());
+		this.userService.createUser(user);
+		LOGGER.info("【系统】---生成测试用户[{}]", user.getUsername());
 		//登入成功
 		HttpSession session = request.getSession();       
 		session.setAttribute(KEY_USER, user);
-		logger.info("{} 登入系统成功!", user.getUsername());
+		LOGGER.info("【系统】---用户[{}]登入成功!", user.getUsername());
         Map<String, Object> result = new HashMap<>();
 		result.put("code","success");
 		result.put("msg", "login success");
@@ -79,15 +85,15 @@ public class LoginController {
 	 * @return
 	 */
 	@ApiOperation(value = "安全退出系统", notes = "登入系统", httpMethod = "POST")
-	@RequestMapping("/logout")
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseBody
-	public Map<String, Object> logout(HttpServletRequest request){
+	public Map<String, Object> logout(HttpServletRequest request, HttpServletResponse response){
 		HttpSession session = request.getSession(); 
 		User user = (User) session.getAttribute(KEY_USER);
 		if (user != null) {
 			//TODO 模拟退出登入,直接清空session
-			logger.info("{} 退出系统成功!", user.getUsername());
-			session.removeAttribute(KEY_USER);			
+			session.removeAttribute(KEY_USER);
+			LOGGER.info("用户[{}]退出系统成功!", user.getUsername());
 		}
         Map<String, Object> result = new HashMap<>();
         result.put("code","success");
@@ -109,7 +115,7 @@ public class LoginController {
 		//业务逻辑省略
 		User user = this.getCurrentUser(request);
 		user.setPassword("abc123");
-		logger.info("{} 重置密码为  {}", user.getUsername(), user.getPassword());
+		LOGGER.info("{} 重置密码为  {}", user.getUsername(), user.getPassword());
 		result.put("success", true);
 		result.put("msg", "重置密码成功");
 		return result;
@@ -130,7 +136,7 @@ public class LoginController {
 			int number = 1 / 0;
 			System.out.println(number);
 		} catch (Exception e) {
-			logger.error("xxx 出现错误", e.getMessage());
+			LOGGER.error("xxx 出现错误", e.getMessage());
 			throw e;
 		}
 		result.put("msg", "xxx-操作成功");

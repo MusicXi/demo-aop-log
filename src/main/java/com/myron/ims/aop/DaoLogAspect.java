@@ -1,16 +1,3 @@
-/*
- * @(#)DnaLogAspect.java 2018年10月30日
- *
- * Copyright 2000-2018 by ChinaNetCenter Corporation.
- *
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of
- * ChinaNetCenter Corporation ("Confidential Information").  You
- * shall not disclose such Confidential Information and shall use
- * it only in accordance with the terms of the license agreement
- * you entered into with ChinaNetCenter.
- */
 package com.myron.ims.aop;
 
 import com.alibaba.fastjson.JSON;
@@ -119,24 +106,29 @@ public class DaoLogAspect {
 
 			// TODO 后续支持更多方法
 			if (methodName.contains("updateById") || methodName.contains("deleteById")) {
+				LOGGER.debug("[{}] 执行数据变化分析--开始", methodName);
 				Serializable primaryKey = this.getPrimaryKey(objects[0]);
+				LOGGER.debug("[{}] key:[{}] current:{}", methodName, primaryKey, JSON.toJSONString(objects[0]));
 				Object result = baseMapper.selectById(primaryKey);
+				LOGGER.debug("[{}] key:[{}] history:{}", methodName, primaryKey, JSON.toJSONString(result));
 				if (methodName.contains("updateById")){
 					try {
 						List<CompareResult> compareResultList = this.compareTowObject(result, objects[0]);
-						LOGGER.info(JSON.toJSONString(compareResultList, true));
-						compareResultList.forEach(compareResult -> {
-							System.out.println(compareResult.getFieldName() + "【" + compareResult.getFieldComment() + "】值:" + compareResult.getOldValue() + " => " + compareResult.getNewValue());
-						});
-
+						log.setDataSnapshot(JSON.toJSONString(compareResultList));
+						LOGGER.info("[{}] key:[{}] compareResult:" + JSON.toJSONString(compareResultList), methodName, primaryKey);
+						for (CompareResult compareResult : compareResultList) {
+							String report = compareResult.getFieldName() + "【" + compareResult.getFieldComment() + "】值:" + compareResult.getOldValue() + " => " + compareResult.getNewValue();
+							LOGGER.debug(report);
+						}
+						LOGGER.debug("[{}] 执行数据变化分析--结束", methodName);
 					} catch (IllegalAccessException e) {
 						e.printStackTrace();
 					}
+				} else {
+					log.setDataSnapshot(JSON.toJSONString(result));
 				}
-				log.setDataSnapshot(JSON.toJSONString(result));
-			}
 
-			//				LOGGER.info("操作日志:{}", jsonObject.toString(SerializerFeature.PrettyFormat));
+			}
 
 			return log;
 		}

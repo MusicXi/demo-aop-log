@@ -59,7 +59,7 @@ public class LogServiceImpl  implements LogService{
 	@Override
 	public Page<Log> findListByPage(Log log, Page<Log> page) {
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize());
-		this.logMapper.selectList(new QueryWrapper<>());
+		this.logMapper.selectList(new QueryWrapper<Log>().orderByDesc("operate_date"));
 		return page;
 	}
 

@@ -9,15 +9,15 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.7.RELEASE</version>
-		<relativePath/>
+<!--		<version>2.1.7.RELEASE</version>-->
+		<version>2.0.9.RELEASE</version>
 	</parent>
 
 
 	<!-- 项目引用第三方jar包 全局版本信息 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<!-- swagger2 -->
 		<springfox-swagger.version>2.7.0</springfox-swagger.version>
 		<!--alibaba json-->
@@ -103,15 +103,21 @@
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 			<version>${pagehelper-spring-boot.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
 	</dependencies>
 
 	<!-- 指定maven仓库 -->
 	<repositories>
 		<repository>
-			<id>maven</id>
-			<name>Maven Repository Switchboard</name>
+			<id>alimaven</id>
+			<name>aliyun maven</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
 			<layout>default</layout>
-			<url>http://repo1.maven.org/maven2</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>

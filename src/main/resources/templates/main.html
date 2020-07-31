@@ -24,13 +24,35 @@
     <a v-else @click="modalShowLogAdd">[请登入]</a>
 
     <Divider orientation="left">测试修改用户信息记录日志</Divider>
-    <form>
-        姓名:<input type="text" name="name">
-        邮箱:<input type="text" name="name">
-        手机:<input type="text" name="name">
-        <Button  type="info">修改</Button>
-    </form>
+    <!--user 查询 -->
+    <div  v-if="user!=null">
+   <i-Form ref="formSearchUser" :model="user" :label-width="60" inline >
 
+         <Form-Item label="用户ID" prop="userId">
+            <i-Input type="text" v-model="user.userId" placeholder="userId">
+            </i-Input>
+        </Form-Item>
+        <Form-Item label="用户名" prop="username">
+            <i-Input type="text" v-model="user.username" placeholder="username">
+            </i-Input>
+        </Form-Item>
+        <Form-Item label="姓名" prop="name">
+            <i-Input type="text" v-model="user.name" placeholder="name">
+            </i-Input>
+        </Form-Item>
+        <Form-Item label="手机" prop="phone">
+            <i-Input type="text" v-model="user.phone" placeholder="phone">
+            </i-Input>
+        </Form-Item>
+        <Form-Item label="邮件" prop="email">
+            <i-Input type="text" v-model="user.email" placeholder="email">
+            </i-Input>
+        </Form-Item>
+        <Form-Item>
+            <i-Button type="primary" @click="userEdit">修改</i-Button>
+        </Form-Item>
+    </i-Form>
+    </div>
     <Divider orientation="left">日志信息系统登入后可见</Divider>
 
     <!--log 列表 -->
@@ -186,7 +208,7 @@
                     {title: '请求时长', key: 'timeout'},
                     {title: '用户名', key: 'loginName'},
                     {title: 'requestID', key: 'requestId'},
-//                    {title: '历史数据', key: 'dataSnapshot'},
+                    {title: '历史数据', key: 'dataSnapshot'},
 //                    {title: '请求时间戳', key: 'requestTimestamp'},
                     {title: '日志状态', key: 'status'}],
                 // 被选中行
@@ -522,7 +544,38 @@
                 .catch(function (error) {
                     vm.$Message.error('Fail!' + error.data.msg);
                 })
-        }
+        },
+
+        // 修改数据
+        userEdit: function () {
+            var vm = this;
+            var model = vm.user;
+            this.axios.post('user/edit',{
+                userId: model.userId,
+                organizationId: model.organizationId,
+                username: model.username,
+                name: model.name,
+                password: model.password,
+                sex: model.sex,
+                phone: model.phone,
+                email: model.email,
+                createDate: model.createDate,
+                createBy: model.createBy,
+                locked: model.locked,
+                loginIp: model.loginIp,
+                loginDate: model.loginDate
+            }).then(function (response) {
+                vm.$Modal.success({
+                    title: '提示',
+                    content: response.data.msg
+                });
+            }).catch(function (error) {
+                vm.$Modal.warning({
+                    title: '提示',
+                    content: error.data.msg
+                });
+            })
+        },
     }
     })
 

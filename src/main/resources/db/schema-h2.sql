@@ -16,3 +16,22 @@ CREATE TABLE `sys_log` (
   `status` int(11) DEFAULT NULL COMMENT '日志状态',
   PRIMARY KEY (`log_id`)
 ) ENGINE=InnoDB DEFAULT;
+
+CREATE TABLE `sys_user` (
+  `user_id` varchar(32) NOT NULL COMMENT '用户ID',
+  `organization_id` varchar(32) DEFAULT NULL COMMENT '机构ID',
+  `username` varchar(32) DEFAULT NULL COMMENT '用户名',
+  `name` varchar(20) DEFAULT NULL COMMENT '姓名',
+  `password` varchar(32) DEFAULT NULL COMMENT '密码',
+  `sex` char(1) DEFAULT NULL COMMENT '性别',
+  `phone` varchar(100) DEFAULT NULL COMMENT '手机',
+  `email` varchar(100) DEFAULT NULL COMMENT '邮件',
+  `create_date` datetime DEFAULT NULL COMMENT '创建日期',
+  `create_by` varchar(32) DEFAULT NULL COMMENT '创建人ID',
+  `locked` int(2) DEFAULT NULL COMMENT '是否被锁定',
+  `login_ip` varchar(20) DEFAULT NULL COMMENT '最后登入IP',
+  `login_date` datetime DEFAULT NULL COMMENT '最后登入日期',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

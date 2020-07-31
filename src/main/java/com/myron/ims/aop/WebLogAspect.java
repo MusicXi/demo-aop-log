@@ -1,16 +1,3 @@
-/*
- * @(#)DnaLogAspect.java 2018年10月30日
- *
- * Copyright 2000-2018 by ChinaNetCenter Corporation.
- *
- * All rights reserved.
- *
- * This software is the confidential and proprietary information of
- * ChinaNetCenter Corporation ("Confidential Information").  You
- * shall not disclose such Confidential Information and shall use
- * it only in accordance with the terms of the license agreement
- * you entered into with ChinaNetCenter.
- */
 package com.myron.ims.aop;
 
 
@@ -21,7 +8,11 @@ import com.myron.ims.mapper.LogMapper;
 import com.myron.ims.util.DateUtils;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +60,7 @@ public class WebLogAspect {
         beginTimeThreadLocal.set(beginTime);
         //debug模式下 显式打印开始时间用于调试
         if (LOGGER.isDebugEnabled()){
-            LOGGER.debug("开始计时: {}  URI: {}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
+            LOGGER.debug("计时开始: {}  URI: {}", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
                     .format(beginTime), request.getRequestURI());
         }
 
@@ -84,6 +75,7 @@ public class WebLogAspect {
     public void doAfter(JoinPoint joinPoint) {
         long beginTime = beginTimeThreadLocal.get().getTime();
         long endTime = System.currentTimeMillis();
+        long timeout = endTime-beginTime;
         User user = this.getCurrentUser();
         if (user == null) {
             return;
@@ -99,7 +91,7 @@ public class WebLogAspect {
                 .params(this.buildRequestParams(request.getParameterMap(), joinPoint.getArgs()))
                 .loginName(user.getUsername())
                 .operateDate(beginTimeThreadLocal.get())
-                .timeout(DateUtils.formatDateTime(endTime-beginTime))
+                .timeout(DateUtils.formatDateTime(timeout))
                 .build();
 
         String timestamp = request.getHeader("timestamp");
@@ -108,6 +100,10 @@ public class WebLogAspect {
         }
         this.logMapper.insert(log);
         logThreadLocal.set(log);
+        //debug模式下 显式打印开始时间用于调试
+        if (LOGGER.isDebugEnabled()){
+            LOGGER.info("record log:{}", JSON.toJSONString(log));
+        }
     }
 
     /**
