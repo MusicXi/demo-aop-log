@@ -52,7 +52,7 @@
 		<slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
 		
 		<!-- test libs -->
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<!-- web libs -->
 		<servlet.version>3.0-alpha-1</servlet.version>
 		<jstl.version>1.2</jstl.version>
