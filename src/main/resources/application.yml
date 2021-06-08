@@ -16,4 +16,5 @@ spring:
     cache: false
 logging:
   config: classpath:logging-spring.xml
-
+server:
+  port: 8088

@@ -47,7 +47,7 @@ public class UserController {
 		return this.userService.createUser(user);
 	}
 
-	@ApiOperation(value="修改sys_user 用户信息")
+	@ApiOperation(value="修改sys_user 用户信息", notes = "#user.username + '的信息被修改了'")
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
 	@ResponseBody
 	public ApiResult editUser(@RequestBody User user) throws BusinessException {

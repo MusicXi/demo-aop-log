@@ -36,6 +36,10 @@ public class Log implements Serializable{
     @ApiModelProperty(value="日志标题")
     private String title;
 
+    /** 日志摘要*/
+    @ApiModelProperty(value="日志描述")
+    private String description;
+
     /** 请求IP*/
     @ApiModelProperty(value="请求IP")
     private String ip;

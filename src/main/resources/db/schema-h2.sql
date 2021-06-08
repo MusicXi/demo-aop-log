@@ -2,6 +2,7 @@ CREATE TABLE `sys_log` (
   `log_id` varchar(32)  NOT NULL COMMENT '日志主键',
   `type` varchar(20) DEFAULT NULL COMMENT '日志类型',
   `title` varchar(100) DEFAULT NULL COMMENT '日志标题',
+  `description` varchar(500) DEFAULT NULL COMMENT '日志描述',
   `ip` varchar(20) DEFAULT NULL COMMENT '请求IP',
   `request_uri` varchar(300) DEFAULT NULL COMMENT 'URI',
   `method` varchar(300) DEFAULT NULL COMMENT '请求方式',

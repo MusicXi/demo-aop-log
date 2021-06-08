@@ -31,11 +31,12 @@
         <appender-ref ref="console" />
         <appender-ref ref="dailyFile" />
     </logger>
-    <logger name="com.myron.ims.mapper" level="info"></logger>
+    <logger name="com.myron.ims.mapper" level="debug"></logger>
     <logger name="org.springframework.boot.web" level="debug"></logger>
     <logger name="com.myron.ims" level="debug"></logger>
+
     <!-- root -->
-    <root  level="info">
+    <root  level="debug">
         <!--<appender-ref ref="dailyFile" />-->
     </root>
 </configuration>

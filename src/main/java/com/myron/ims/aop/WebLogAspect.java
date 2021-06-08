@@ -6,7 +6,9 @@ import com.myron.ims.bean.Log;
 import com.myron.ims.bean.User;
 import com.myron.ims.mapper.LogMapper;
 import com.myron.ims.util.DateUtils;
+import com.myron.ims.util.SpringSpelUtils;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -20,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,12 +44,16 @@ public class WebLogAspect {
     private static final ThreadLocal<Log> logThreadLocal = new NamedThreadLocal<Log>("ThreadLocal log");
     private static final ThreadLocal<User> currentUser=new NamedThreadLocal<>("ThreadLocal user");
 
+
+
     @Autowired(required = false)
     private HttpServletRequest request;
     @Autowired(required = false)
     private HttpServletResponse response;
     @Autowired
     private LogMapper logMapper;
+
+
 
     @Pointcut("@annotation(io.swagger.annotations.ApiOperation)")
     public void controllerAspect() {
@@ -80,10 +85,13 @@ public class WebLogAspect {
         if (user == null) {
             return;
         }
+
+
         Log log = Log.builder()
                 .type("http")
                 .status(1)
-                .title(getControllerMethodDescription2(joinPoint))
+                .title(this.getControllerMethodTitle(joinPoint))
+                .description(this.getControllerMethodDescription(joinPoint))
                 .requestId(response.getHeader("requestId"))
                 .requestUri(request.getRequestURI())
                 .method(request.getMethod())
@@ -128,13 +136,32 @@ public class WebLogAspect {
      * @param joinPoint 切点
      * @return 方法描述
      */
-    public static String getControllerMethodDescription2(JoinPoint joinPoint) {
+    public  String getControllerMethodDescription(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         ApiOperation apiOperation = method
                 .getAnnotation(ApiOperation.class);
-        String discription = apiOperation.value();
-        return discription;
+        String spelTemplate = apiOperation.notes();
+        String spelDescription = SpringSpelUtils.parse(method, joinPoint.getArgs(), spelTemplate);
+        // 解析后与解析前数据一致说明未成功解析,则不设置值
+        if (StringUtils.equals(spelTemplate, spelDescription)) {
+            return StringUtils.EMPTY;
+        }
+        return spelDescription;
+    }
+
+    /**
+     * 获取注解中对方法的描述信息 用于Controller层注解
+     *
+     * @param joinPoint 切点
+     * @return 方法描述
+     */
+    public String getControllerMethodTitle(JoinPoint joinPoint) {
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+        ApiOperation apiOperation = method
+                .getAnnotation(ApiOperation.class);
+        return apiOperation.value();
     }
 
     private String buildRequestParams(Map<String, String[]> paramMap, Object[] args) {
