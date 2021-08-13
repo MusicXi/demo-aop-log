@@ -28,7 +28,7 @@
 
     <!--additivity="false" 表示只用当前logger的appender-ref-->
     <logger name="com.myron" additivity="true" level="info">
-        <appender-ref ref="console" />
+        <!--<appender-ref ref="console" />-->
         <appender-ref ref="dailyFile" />
     </logger>
     <logger name="com.myron.ims.mapper" level="debug"></logger>
@@ -38,5 +38,6 @@
     <!-- root -->
     <root  level="debug">
         <!--<appender-ref ref="dailyFile" />-->
+        <appender-ref ref="console" />
     </root>
 </configuration>

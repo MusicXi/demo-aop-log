@@ -197,7 +197,7 @@
                     {title: '请求IP', key: 'ip'},
                     {title: 'URI', key: 'requestUri'},
                     {title: '请求方式', key: 'method'},
-                    {title: '提交参数', key: 'params'},
+                    {title: '提交参数', key: 'params', width:200},
                     {title: '异常', key: 'exception'},
                     {
                         title: '操作时间', key: 'operateDate',
@@ -553,7 +553,7 @@
         userEdit: function () {
             var vm = this;
             var model = vm.user;
-            this.axios.post('user/edit',{
+            this.axios.put('user/edit' + '/'+ model.userId,{
                 userId: model.userId,
                 organizationId: model.organizationId,
                 username: model.username,
