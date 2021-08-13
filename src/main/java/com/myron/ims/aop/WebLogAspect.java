@@ -142,12 +142,13 @@ public class WebLogAspect {
         ApiOperation apiOperation = method
                 .getAnnotation(ApiOperation.class);
         String spelTemplate = apiOperation.notes();
-        String spelDescription = SpringSpelUtils.parse(method, joinPoint.getArgs(), spelTemplate);
+        // TODO 模板测试暂不开启
+/*        String spelDescription = SpringSpelUtils.parse(method, joinPoint.getArgs(), spelTemplate);
         // 解析后与解析前数据一致说明未成功解析,则不设置值
         if (StringUtils.equals(spelTemplate, spelDescription)) {
             return StringUtils.EMPTY;
-        }
-        return spelDescription;
+        }*/
+        return spelTemplate;
     }
 
     /**
@@ -166,7 +167,7 @@ public class WebLogAspect {
 
     private String buildRequestParams(Map<String, String[]> paramMap, Object[] args) {
         StringBuilder params = new StringBuilder();
-        // post 请求体json参数
+        // post/put 请求体json参数
         if (CollectionUtils.isEmpty(paramMap)) {
             for (Object obj : args) {
                 if (!(obj instanceof Serializable)) {
