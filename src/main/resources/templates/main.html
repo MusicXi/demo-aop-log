@@ -296,8 +296,8 @@
             this.axios.get('log/listByPage', {
                 params: params
             }).then(function (response) {
-                vm.log.data = response.data.data;
-                vm.log.total = response.data.total;
+                vm.log.data = response.data.data.rows;
+                vm.log.total = response.data.data.total;
             })
         }
     ,

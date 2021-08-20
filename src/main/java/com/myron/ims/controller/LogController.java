@@ -1,7 +1,9 @@
 package com.myron.ims.controller;
 
 import com.github.pagehelper.Page;
+import com.myron.ims.bean.ApiResult;
 import com.myron.ims.bean.Log;
+import com.myron.ims.bean.PageResult;
 import com.myron.ims.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 
 /**
@@ -29,12 +30,9 @@ public class LogController {
 
 	@RequestMapping(value = "/listByPage", method=RequestMethod.GET)
 	@ResponseBody
-	public  Map<String, Object> listByPage(Log log, Page<Log> page) {
-		Map<String, Object> map = new HashMap<>();
+	public ApiResult<PageResult<List<Log>>> listByPage(Log log, Page<Log> page) {
 		page = this.logService.findListByPage(log, page);
-		map.put("data", page);
-	    map.put("total", page.getTotal());
-		return map;
+		return ApiResult.wrapPage(page);
 	}
 	
 	
