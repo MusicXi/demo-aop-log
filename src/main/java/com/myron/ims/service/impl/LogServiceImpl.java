@@ -1,14 +1,13 @@
 package com.myron.ims.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.myron.ims.bean.Log;
 import com.myron.ims.mapper.LogMapper;
+import com.myron.ims.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.myron.ims.bean.Log;
-import com.myron.ims.service.LogService;
 
 import java.util.List;
 import java.util.Map;
@@ -59,7 +58,10 @@ public class LogServiceImpl  implements LogService{
 	@Override
 	public Page<Log> findListByPage(Log log, Page<Log> page) {
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize());
-		this.logMapper.selectList(new QueryWrapper<Log>().orderByDesc("operate_date"));
+/*		if (page != null) {
+			throw new RuntimeException("模拟业务异常");
+		}*/
+		this.logMapper.selectList(Wrappers.lambdaQuery());
 		return page;
 	}
 
