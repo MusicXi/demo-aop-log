@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.UUID;
 
 /**
  * Created by liuguanqing on 16/12/28.
@@ -119,7 +120,7 @@ public class HttpRequestMDCFilter implements Filter {
 
     private void mdc(HttpServletRequest hsr, HttpServletResponse response) {
         MDC.put(MDCConstants.LOCAL_IP_MDC_KEY,localIp);
-        String requestId = StringUtils.isEmpty(hsr.getHeader(MDCConstants.REQUEST_ID_HEADER))? hsr.getHeader("timestamp"):hsr.getHeader(MDCConstants.REQUEST_ID_HEADER);
+        String requestId = StringUtils.isEmpty(hsr.getHeader(MDCConstants.REQUEST_ID_HEADER))? UUID.randomUUID().toString():hsr.getHeader(MDCConstants.REQUEST_ID_HEADER);
         MDC.put(MDCConstants.REQUEST_ID_MDC_KEY, requestId);
         // 设置响应requestId
         if (!StringUtils.isEmpty(requestId)) {

@@ -4,7 +4,7 @@
 	<groupId>com.myron.demo</groupId>
 	<artifactId>demo-aop-log</artifactId>
 	<version>1.0.0</version>
-	<packaging>war</packaging>
+	<!--<packaging>war</packaging>-->
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
