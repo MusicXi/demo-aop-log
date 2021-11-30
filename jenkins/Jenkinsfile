@@ -11,5 +11,13 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
+        stage('docker-build') {
+            agent any
+            steps {
+                sh '''cd /var/jenkins_home/workspace/create_docker_images/target
+                cp ../jenkins/docker/Dockerfile ./
+                docker build -t testproject .'''
+            }
+        }
     }
 }
