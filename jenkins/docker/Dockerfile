@@ -1,8 +1,8 @@
 # Docker image for springboot file run
 # VERSION 0.0.1
-# Author: zhangsan
+# Author: zhangsan1
 FROM java:8
-MAINTAINER zhangsan <zhangsan@gmail.com>
+MAINTAINER zhangsan <zhangsan@aa.com>
 # VOLUME 指定了临时文件目录为/tmp。
 # 其效果是在主机 /var/lib/docker 目录下创建了一个临时文件，并链接到容器的/tmp
 VOLUME /tmp
