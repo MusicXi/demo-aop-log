@@ -14,9 +14,7 @@ pipeline {
         stage('docker-build') {
             agent any
             steps {
-                sh '''cd /var/jenkins_home/workspace/create_docker_images/target
-                cp ../jenkins/docker/Dockerfile ./
-                docker build -t testproject .'''
+                sh './jenkins/scripts/docker-build.sh''
             }
         }
     }
