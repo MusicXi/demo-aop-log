@@ -1,20 +1,23 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+	agent none
     stages {
         stage('Build') {
+            agent {
+                docker {
+                    image 'maven:3-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('docker-build') {
-            agent any
+ 			agent any
             steps {
-                sh './jenkins/scripts/docker-build.sh''
+                sh 'chmod +x ./jenkins/scripts/docker-build.sh'
+				sh './jenkins/scripts/docker-build.sh'
+				sh 'docker images'
             }
         }
     }
