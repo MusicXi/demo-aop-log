@@ -1,0 +1,110 @@
+pipeline{
+  agent{
+  kubernetes{
+  label "jenkins-slave"
+  cloud 'kubernetes'
+  yaml '''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins-slave
+  namespace: kube-ops
+  labels:
+    app: jenkins-slave
+spec:
+  # 使用指定账号运行
+  serviceAccountName: jenkins
+  containers:
+    # 注意必须要jnlp这个名字
+    - name: jnlp
+      image: openshift/jenkins-slave-maven-centos7
+      volumeMounts:
+        - name: docker-sock
+          mountPath: /var/run/docker.sock
+        - name: docker-bin
+          mountPath: /usr/bin/docker
+          # 使用node节点的kubectl命令,不用镜像里面的,避免版本不一致
+        - name: kubectl-bin
+          mountPath: /usr/bin/kubectl
+        - name: maven-repo
+          mountPath: /home/jenkins/.m2/repository
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
+    - name: docker-bin
+      hostPath:
+        path: /usr/bin/docker
+    - name: kubectl-bin
+      hostPath:
+        path: /usr/bin/kubectl
+    - name: maven-repo
+      nfs:
+        server: 192.168.10.101
+        path: /data/nfs/maven
+  '''
+  }
+}
+    parameters {
+        string(name: 'APP_NAME', defaultValue: 'demo-aop-log', description: '应用名称[也作为运行容器别名]')
+        string(name: 'DOCKER_IMAGE_REPOSITORY_PREFIX', defaultValue: 'linrx1', description: 'docker镜像仓库前缀')
+        string(name: 'DOCKER_IMAGE_TAG', defaultValue: '1.0', description: 'docker镜像TAG【版本】')
+        string(name: 'DOCKER_HARBOR_ADDRESS', defaultValue: '192.168.10.102:9999', description: 'harbor地址')
+        string(name: 'GIT_BRANCHES', defaultValue: 'development', description: 'git分支版本')
+
+    }
+    environment {
+        DOCKER_IMAGE_NAME = "${DOCKER_HARBOR_ADDRESS}/${params.DOCKER_IMAGE_REPOSITORY_PREFIX}/${params.APP_NAME}:${DOCKER_IMAGE_TAG}-${BUILD_NUMBER}"
+    }
+  stages{
+      stage('Example') {
+          steps {
+              echo "默认系统参数:"
+              //sh("echo job ${JOB_NAME}")
+              echo "JOB_NAME: ${JOB_NAME}"
+              echo "JENKINS_HOME: ${JENKINS_HOME}"
+              echo "WORKSPACE: ${WORKSPACE}"
+              echo "BUILD: ${BUILD_NUMBER}"
+              echo "自定义参数:"
+              echo "APP_NAME: ${APP_NAME}"
+              echo "DOCKER_IMAGE_REPOSITORY_PREFIX: ${DOCKER_IMAGE_REPOSITORY_PREFIX}"
+              echo "DOCKER_IMAGE_TAG: ${DOCKER_IMAGE_TAG}"
+              echo "DOCKER_IMAGE_NAME: ${DOCKER_IMAGE_NAME}"
+        }
+      }
+    stage('build-maven'){
+     steps{
+        // credentialsId 配置git账号密码:dashboard>凭据>全局凭据: 账号/密码/ID
+        checkout([$class: 'GitSCM', branches: [[name: '${GIT_BRANCHES}']], userRemoteConfigs: [[credentialsId: "gogo_secret", url: "http://192.168.10.101:10080/zhangsan/demo-aop-log.git"]]])
+        sh 'mvn -B -DskipTests clean package'
+      }
+    }
+    stage('build-docker') {
+      steps {
+        sh '''
+             cd ${WORKSPACE}/target
+             cp ../jenkins/docker/Dockerfile ./
+             ls ./
+             docker login -u admin -p Harbor12345 ${DOCKER_HARBOR_ADDRESS}
+             docker build -t ${DOCKER_IMAGE_NAME} .
+             docker push ${DOCKER_IMAGE_NAME}
+             echo "当前docker镜像:docker images | grep ${APP_NAME}"
+             docker images | grep ${APP_NAME}
+        '''
+      }
+    }
+
+    stage('deploy-k8s'){
+       steps {
+            sh """
+             sed -i 's#\$IMAGE_NAME#${DOCKER_IMAGE_NAME}#' jenkins-k8s/deployment.yaml
+             """
+            sh 'cat jenkins-k8s/deployment.yaml'
+            //sh 'kubectl apply -f ./jenkins-k8s/deployment.yaml'
+            sh 'kubectl replace -f jenkins-k8s/deployment.yaml --force'
+       }
+
+    }
+
+  }
+}

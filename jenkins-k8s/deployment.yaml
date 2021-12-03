@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-aop-log
+  labels:
+    app: demo-aop-log
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-aop-log
+  template:
+    metadata:
+      labels:
+        app: demo-aop-log
+    spec:
+      containers:
+        - name: demo-aop-log
+          #image: 192.168.10.102:9999/linrx1/demo-aop-log:1.0-69
+          image: $IMAGE_NAME
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8088
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-aop-log
+  labels:
+    app: demo-aop-log
+spec:
+  type: NodePort
+  selector:
+    app: demo-aop-log
+  ports:
+    - port: 8088
+      targetPort: 8088
+      nodePort: 30080
