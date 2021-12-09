@@ -61,7 +61,7 @@
 
 		<!-- rest json libs -->
 		<resteasy.version>3.0.7.Final</resteasy.version>
-		<jackson.version>2.2.3</jackson.version>
+		<jackson.version>2.9.10.8</jackson.version>
 		<!-- spring -->
 		<spring.version>4.2.6.RELEASE</spring.version>
 		<aspectjweaver.version>1.8.5</aspectjweaver.version>
