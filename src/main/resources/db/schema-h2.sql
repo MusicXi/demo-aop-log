@@ -8,7 +8,7 @@ CREATE TABLE `sys_log` (
   `method` varchar(300) DEFAULT NULL COMMENT '请求方式',
   `params` text COMMENT '提交参数',
   `exception` text COMMENT '异常',
-  `operate_date` timestamp(6) NULL DEFAULT NULL COMMENT '操作时间',
+  `operate_date` datetime NULL DEFAULT NULL COMMENT '操作时间',
   `timeout` varchar(10) DEFAULT NULL COMMENT '请求时长',
   `login_name` varchar(32) DEFAULT NULL COMMENT '用户登入名',
   `request_id` varchar(36) DEFAULT NULL COMMENT 'requestID',
