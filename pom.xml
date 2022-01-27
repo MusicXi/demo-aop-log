@@ -22,6 +22,9 @@
 		<!--alibaba json-->
 		<alibaba-json.version>1.2.47</alibaba-json.version>
 		<pagehelper-spring-boot.version>1.2.12</pagehelper-spring-boot.version>
+
+		<!-- mysql-->
+		<mysql-connector-java.version>8.0.27</mysql-connector-java.version>
 	</properties>
 
 	<dependencies>
@@ -107,6 +110,13 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
+		</dependency>
+
+		<!--mysql jdbc驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java.version}</version>
 		</dependency>
 	</dependencies>
 
