@@ -1,17 +1,8 @@
-# DataSource Config
 spring:
-  datasource:
-#    driver-class-name: org.h2.Driver
-#    schema: classpath:db/schema-h2.sql
-#    data: classpath:db/data-h2.sql
-#    url: jdbc:h2:mem:test
-#    username: root
-#    password: test
-
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.100.50:3306/demo_aop_log?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
-    username: root
-    password: 123456
+  # 环境配置
+  profiles:
+#    active: dev-h2
+    active: dev
   # 页面配置
   thymeleaf:
     mode: HTML5
@@ -19,6 +10,7 @@ spring:
     servlet:
       content-type: text/html
     cache: false
+
 logging:
   config: classpath:logging-spring.xml
 server:

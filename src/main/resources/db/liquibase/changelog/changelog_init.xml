@@ -1,0 +1,50 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Administrator (generated)" id="1643274861695-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="sys_log">
+            <column name="log_id" remarks="日志主键" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" remarks="日志类型" type="VARCHAR(20)"/>
+            <column name="title" remarks="日志标题" type="VARCHAR(100)"/>
+            <column name="description" remarks="日志描述" type="VARCHAR(500)"/>
+            <column name="ip" remarks="请求IP" type="VARCHAR(20)"/>
+            <column name="request_uri" remarks="URI" type="VARCHAR(300)"/>
+            <column name="method" remarks="请求方式" type="VARCHAR(300)"/>
+            <column name="params" remarks="提交参数" type="TEXT"/>
+            <column name="exception" remarks="异常" type="TEXT"/>
+            <column name="operate_date" remarks="操作时间" type="datetime(6)"/>
+            <column name="timeout" remarks="请求时长" type="VARCHAR(10)"/>
+            <column name="login_name" remarks="用户登入名" type="VARCHAR(32)"/>
+            <column name="request_id" remarks="requestID" type="VARCHAR(36)"/>
+            <column name="data_snapshot" remarks="历史数据" type="TEXT"/>
+            <column name="request_timestamp" remarks="请求时间戳" type="BIGINT"/>
+            <column name="status" remarks="日志状态" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Administrator (generated)" id="1643274861695-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <createTable tableName="sys_user">
+            <column name="user_id" remarks="用户ID" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organization_id" remarks="机构ID" type="VARCHAR(32)"/>
+            <column name="username" remarks="用户名" type="VARCHAR(32)"/>
+            <column name="name" remarks="姓名" type="VARCHAR(20)"/>
+            <column name="password" remarks="密码" type="VARCHAR(32)"/>
+            <column name="sex" remarks="性别" type="CHAR(1)"/>
+            <column name="phone" remarks="手机" type="VARCHAR(100)"/>
+            <column name="email" remarks="邮件" type="VARCHAR(100)"/>
+            <column name="create_date" remarks="创建日期" type="datetime(6)"/>
+            <column name="create_by" remarks="创建人ID" type="VARCHAR(32)"/>
+            <column name="locked" remarks="是否被锁定" type="INT"/>
+            <column name="login_ip" remarks="最后登入IP" type="VARCHAR(20)"/>
+            <column name="login_date" remarks="最后登入日期" type="datetime(6)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Administrator (generated)" id="1643274861695-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addPrimaryKey columnNames="log_id" constraintName="PRIMARY" tableName="sys_log"/>
+    </changeSet>
+    <changeSet author="Administrator (generated)" id="1643274861695-4" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <addPrimaryKey columnNames="user_id" constraintName="PRIMARY" tableName="sys_user"/>
+    </changeSet>
+</databaseChangeLog>

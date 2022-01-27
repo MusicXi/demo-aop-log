@@ -24,7 +24,7 @@
 		<pagehelper-spring-boot.version>1.2.12</pagehelper-spring-boot.version>
 
 		<!-- mysql-->
-		<mysql-connector-java.version>8.0.27</mysql-connector-java.version>
+		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
 	</properties>
 
 	<dependencies>
@@ -118,6 +118,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
 		</dependency>
+
+		<!-- liquibase管理升级脚本(org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration 自动装配)-->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<!-- 指定maven仓库 -->
@@ -147,6 +153,27 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<!--mvn liquibase:generateChangeLog (mysql表反向生成liquibase的xml配置)-->
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<!--properties文件路径，该文件记录了数据库连接信息等
+					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+					-->
+					<propertyFileWillOverride>true</propertyFileWillOverride>
+					<!--生成文件的路径-->
+					<outputChangeLogFile>src/main/resources/db/liquibase/changelog/changelog_init.xml</outputChangeLogFile>
+					<!--要连接库配置信息 -->
+					<driver>com.mysql.jdbc.Driver</driver>
+                    <url>jdbc:mysql://192.168.100.50:3306/demo_aop_log?useUnicode=true&amp;characterEncoding=utf-8</url>
+                    <username>root</username>
+                    <password>123456</password>
+
 				</configuration>
 			</plugin>
 
