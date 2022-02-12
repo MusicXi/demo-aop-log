@@ -10,8 +10,13 @@
     - 修改记录修改前的数据(高级生成对比日志)
     - 删除记录删除前的数据
 4. 增加mysql和h2数据源来测试功能
+5. 增加liquibase管理数据库脚本
 
 ## quick start
+创建数据库
+```sql
+CREATE DATABASE `demo-aop-log` default CHARACTER set utf8 COLLATE utf8_unicode_ci;
+```
 - 启动方式:com.myron.ims.Application.main() 通过active来切换测试数据源
   - h2数据库: spring.profiles.active: dev-h2
   - mysql数据: spring.profiles.active: dev
