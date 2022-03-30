@@ -1,10 +1,10 @@
 # 使用h2快速测试
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
+    driver-class-name: net.sf.log4jdbc.DriverSpy
     schema: classpath:db/schema-h2.sql
     data: classpath:db/data-h2.sql
-    url: jdbc:h2:mem:test
+    url: jdbc:log4jdbc:h2:mem:test
     username: root
     password: test
   # liquibase不支持h2数据库,springboot的LiquibaseAutoConfiguration会自动装配开启,因此要显式关闭

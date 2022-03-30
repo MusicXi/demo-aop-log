@@ -1,8 +1,8 @@
 spring:
   # 环境配置
   profiles:
-#    active: dev-h2
-    active: dev
+    active: dev-h2
+#    active: dev
   # 页面配置
   thymeleaf:
     mode: HTML5

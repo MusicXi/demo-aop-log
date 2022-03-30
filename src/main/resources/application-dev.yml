@@ -1,8 +1,8 @@
 # DataSource Config
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.100.70:3306/demo_aop_log?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+    url: jdbc:log4jdbc:mysql://192.168.100.10:3306/demo_aop_log?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
     username: root
     password: 123456
   liquibase:

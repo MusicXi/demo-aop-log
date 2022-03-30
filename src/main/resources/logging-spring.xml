@@ -31,9 +31,29 @@
         <!--<appender-ref ref="console" />-->
         <appender-ref ref="dailyFile" />
     </logger>
-    <logger name="com.myron.ims.mapper" level="debug"></logger>
+    <logger name="com.myron.ims.mapper" level="info"></logger>
     <logger name="org.springframework.boot.web" level="debug"></logger>
     <logger name="com.myron.ims" level="debug"></logger>
+
+    <logger name="jdbc.connection" additivity="false" level="OFF">
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.resultset" additivity="false" level="OFF">
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.audit" additivity="false" level="OFF">
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="jdbc.sqltiming" additivity="false" level="OFF">
+        <appender-ref ref="console" />
+    </logger>
+
+    <logger name="jdbc.sqlonly" additivity="false" level="DEBUG">
+        <appender-ref ref="console" />
+    </logger>
+    <logger name="sample.shiro.mapper" additivity="false" level="TRACE">
+        <appender-ref ref="console" />
+    </logger>
 
     <!-- root -->
     <root  level="info">

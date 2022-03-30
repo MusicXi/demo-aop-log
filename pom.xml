@@ -124,6 +124,14 @@
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
+
+		<!-- log4jdbc -->
+		<dependency>
+			<groupId>com.googlecode.log4jdbc</groupId>
+			<artifactId>log4jdbc</artifactId>
+			<version>1.2</version>
+	<!--		<scope>runtime</scope>-->
+		</dependency>
 	</dependencies>
 
 	<!-- 指定maven仓库 -->
@@ -170,7 +178,7 @@
 					<outputChangeLogFile>src/main/resources/db/liquibase/changelog/changelog_init.xml</outputChangeLogFile>
 					<!--要连接库配置信息 -->
 					<driver>com.mysql.jdbc.Driver</driver>
-                    <url>jdbc:mysql://192.168.100.50:3306/demo_aop_log?useUnicode=true&amp;characterEncoding=utf-8</url>
+                    <url>jdbc:mysql://192.168.100.10:3306/demo_aop_log?useUnicode=true&amp;characterEncoding=utf-8</url>
                     <username>root</username>
                     <password>123456</password>
 
