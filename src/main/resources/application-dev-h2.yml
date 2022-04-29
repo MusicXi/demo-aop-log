@@ -11,3 +11,11 @@ spring:
   liquibase:
     enabled: false
 
+  h2:
+    console:
+      # 默认关闭 http://host:port/h2-console (url=jdbc:h2:mem:test / 账号密码=root/test 和上面的datasource配置保持一致)
+      enabled: true
+      settings:
+        # 不开启报错: Sorry, remote connections ('webAllowOthers') are disabled on this server.
+        web-allow-others: true
+
