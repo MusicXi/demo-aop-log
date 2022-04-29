@@ -41,7 +41,7 @@ public class FilterConfig {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(loginFilter());
         registrationBean.addUrlPatterns("/*");
-        registrationBean.addInitParameter("excludedPaths", "/,/login,*.css,*.js,*.ico,*.ttf,*.woff,*.map");
+        registrationBean.addInitParameter("excludedPaths", "/,/h2-console/*,/login,*.css,*.js,*.ico,*.ttf,*.woff,*.map");
         registrationBean.setOrder(2);
         registrationBean.setName("loginFilter[身份认证]");
         return registrationBean;
