@@ -1,9 +1,9 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="Administrator (generated)" id="1643274861695-1" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="zhangsan" id="create.sys_log" >
         <createTable tableName="sys_log">
             <column name="log_id" remarks="日志主键" type="VARCHAR(32)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="type" remarks="日志类型" type="VARCHAR(20)"/>
             <column name="title" remarks="日志标题" type="VARCHAR(100)"/>
@@ -22,10 +22,10 @@
             <column name="status" remarks="日志状态" type="INT"/>
         </createTable>
     </changeSet>
-    <changeSet author="Administrator (generated)" id="1643274861695-2" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+    <changeSet author="zhangsan" id="create.sys_user" >
         <createTable tableName="sys_user">
             <column name="user_id" remarks="用户ID" type="VARCHAR(32)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="organization_id" remarks="机构ID" type="VARCHAR(32)"/>
             <column name="username" remarks="用户名" type="VARCHAR(32)"/>
@@ -41,10 +41,5 @@
             <column name="login_date" remarks="最后登入日期" type="datetime(6)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Administrator (generated)" id="1643274861695-3" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <addPrimaryKey columnNames="log_id" constraintName="PRIMARY" tableName="sys_log"/>
-    </changeSet>
-    <changeSet author="Administrator (generated)" id="1643274861695-4" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
-        <addPrimaryKey columnNames="user_id" constraintName="PRIMARY" tableName="sys_user"/>
-    </changeSet>
+
 </databaseChangeLog>
