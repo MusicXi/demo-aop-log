@@ -3,6 +3,11 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <include file="./changelog/*.xml" relativeToChangelogFile="true" />
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+<!--    指定文件加载-->
+<!--    <include file="./changelog/changelog_init.xml" relativeToChangelogFile="true" />-->
+    <!--制定目录加载-->
+    <includeAll path="./changelog/" relativeToChangelogFile="true" />
+    <!--测试自增索引成功-->
+    <!--    <include file="./test/test.xml" relativeToChangelogFile="true" />-->
 </databaseChangeLog>
