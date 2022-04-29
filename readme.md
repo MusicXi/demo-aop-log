@@ -15,7 +15,7 @@
 ## quick start
 创建数据库
 ```sql
-CREATE DATABASE `demo-aop-log` default CHARACTER set utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE `demo_aop_log` default CHARACTER set utf8 COLLATE utf8_unicode_ci;
 ```
 - 启动方式:com.myron.ims.Application.main() 通过active来切换测试数据源
   - h2数据库: spring.profiles.active: dev-h2
