@@ -1,0 +1,2 @@
+"LOG_ID","TYPE","TITLE","DESCRIPTION","IP","REQUEST_URI","METHOD","PARAMS","EXCEPTION","OPERATE_DATE","TIMEOUT","LOGIN_NAME","REQUEST_ID","DATA_SNAPSHOT","REQUEST_TIMESTAMP","STATUS"
+"3b53620abfc844edd334ea8821c8fd7a","http","登入系统","登入系统","10.0.6.67","/login","POST","{""password"":""123456"",""userId"":""NO1651221698089"",""username"":""zhangsan""}",,"2022-04-29 16:41:38.089","0:0:0.14","zhangsan","31c4f7c8-386f-4b4f-b5bf-f0b27aa206ce",,"1651221698051","1"

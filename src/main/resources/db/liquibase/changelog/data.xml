@@ -1,0 +1,12 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="account.loadData" author="myron">
+        <loadData tableName="sys_log" file="db/liquibase/csv/sys_log.csv" >
+            <!--json文本保存test类型字段需要补充类型定义，否则会报错 CLOB resource not found: {"password":"123456","userId":"NO1651221698089","username":"zhangsan"}-->
+            <column name="param" type="TEXT"/>
+        </loadData>
+    </changeSet>
+
+
+</databaseChangeLog>
