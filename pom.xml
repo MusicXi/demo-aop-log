@@ -63,7 +63,7 @@
 		<resteasy.version>3.0.7.Final</resteasy.version>
 		<jackson.version>2.2.3</jackson.version>
 		<!-- spring -->
-		<spring.version>4.2.6.RELEASE</spring.version>
+		<spring.version>5.2.22.RELEASE</spring.version>
 		<aspectjweaver.version>1.8.5</aspectjweaver.version>
 		<!-- orm -->
 		<mybatis.version>3.3.0</mybatis.version>
