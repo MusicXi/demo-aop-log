@@ -141,6 +141,11 @@
         if (error.status == 403) {
             logVM.log.form.isAddModalShow=true;
             window.globalConfig.user="";
+            // 补充requestId提示
+            logVM.$Modal.warning({
+                title: '提示403',
+                content: error.data.msg + "<br> requestId:" + error.headers.requestid
+            });
         }
         return Promise.reject(error);
     });
@@ -569,14 +574,15 @@
                 loginDate: model.loginDate
             }).then(function (response) {
                 vm.$Modal.success({
-                    title: '提示',
+                    title: '修改用户提示',
                     content: response.data.msg
                 });
             }).catch(function (error) {
-                vm.$Modal.warning({
-                    title: '提示',
+                // 使用拦截器统一处理报错
+  /*              vm.$Modal.warning({
+                    title: '修改用户提示',
                     content: error.data.msg
-                });
+                });*/
             })
         },
     }
