@@ -1,4 +1,4 @@
-# 使用h2快速测试
+# 使用h2快速测试--使用liquibase管理h2的数据
 spring:
   datasource:
     driver-class-name: net.sf.log4jdbc.DriverSpy
