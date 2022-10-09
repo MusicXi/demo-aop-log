@@ -2,6 +2,7 @@ package com.myron.ims.controller;
 
 import com.myron.ims.annotation.SystemControllerLog;
 import com.myron.ims.bean.User;
+import com.myron.ims.configuration.AppProperties;
 import com.myron.ims.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,23 +38,27 @@ public class LoginController {
 	public static final String KEY_USER = "ims_user";
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AppProperties appProperties;
 	
 	@RequestMapping("/")
 	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(KEY_USER);
+//        String apiPrefix = "/log/"; //k8s配合ingres转发地址，如果非k8s使用“/”即可
+		String apiPrefix = appProperties.getApiPrefix();
         model.addAttribute("user", user);
-        model.addAttribute("apiUrl", "/");
+        model.addAttribute("apiUrl", apiPrefix);
 		Map<String, Object> front = new HashMap<>();
 		// 前端资源版本--在<script><link>中使用变量
 /*		front.put("iview_css", "http://unpkg.com/iview/dist/styles/iview.css");
 		front.put("iview_js", "http://unpkg.com/iview/dist/iview.min.js");
 		front.put("vue_js", "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js");
 		front.put("axios_js", "https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js");*/
-		front.put("iview_css", "/static/dist/iview/style/iview.css");
-		front.put("iview_js", "/static/dist/iview/iview.min.js");
-		front.put("vue_js", "/static/dist/vue/vue.js");
-		front.put("axios_js", "/static/dist/axios/axios.min.js");
+		front.put("iview_css", apiPrefix + "static/dist/iview/style/iview.css");
+		front.put("iview_js", apiPrefix + "static/dist/iview/iview.min.js");
+		front.put("vue_js", apiPrefix + "static/dist/vue/vue.js");
+		front.put("axios_js", apiPrefix + "static/dist/axios/axios.min.js");
 		model.addAttribute("front", front);
 	    return "main";
     }
