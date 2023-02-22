@@ -5,7 +5,7 @@ spring:
     url: jdbc:log4jdbc:h2:mem:test  #内存模式
 #    url: jdbc:log4jdbc:h2:file:D:\git\demo\demo-aop-log\target\temp\h2  # 文件模式
     username: root
-    password: test
+    password: 123456
   # liquibase 支持h2对应的changelog.xml要写对
   liquibase:
     enabled: true

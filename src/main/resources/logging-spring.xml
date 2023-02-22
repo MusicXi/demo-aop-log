@@ -21,7 +21,7 @@
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} [%X{requestId}] [%X{localIp}] %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</pattern>
+            <pattern>%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} [%X{requestId}] [%X{localIp}] %clr(%-40.40logger{39}){cyan}%L %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</pattern>
         </encoder>
     </appender>
 
@@ -31,7 +31,7 @@
         <!--<appender-ref ref="console" />-->
         <appender-ref ref="dailyFile" />
     </logger>
-    <logger name="com.myron.ims.mapper" level="info"></logger>
+    <logger name="com.myron.ims.mapper" level="debug"></logger>
     <logger name="org.springframework.boot.web" level="debug"></logger>
     <logger name="com.myron.ims" level="debug"></logger>
 
