@@ -1,4 +1,4 @@
-# 说明
+# spring切面实现日志
 
 ## springboot版本
 1. Filter记录每个web数据请求的requestId记录日志
@@ -18,16 +18,10 @@
 CREATE DATABASE `demo_aop_log` default CHARACTER set utf8 COLLATE utf8_unicode_ci;
 ```
 - 启动方式:com.myron.ims.Application.main() 通过active来切换测试数据源
-  - h2数据库: spring.profiles.active: dev-h2
-  - mysql数据: spring.profiles.active: dev
+    - h2数据库: spring.profiles.active: dev-h2
+    - mysql数据: spring.profiles.active: dev
 
-## 联系    
+## 联系
 项目详细设计说明:http://blog.csdn.net/myron_007/article/details/54927529
 博客回复疑问不及时。如果有问题可以加临时群,439019717,把问题说明截图,贴下下去。解决完可以退出。
 
-
-
-
-ToDesk:
-设备代码:170 518 395
-临时密码:70qxnme0

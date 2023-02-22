@@ -14,4 +14,4 @@ spring:
 logging:
   config: classpath:logging-spring.xml
 server:
-  port: 8088
+  port: 9099
