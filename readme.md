@@ -1,4 +1,8 @@
-### 说明
+# 说明
+
+正式开源版本已经发布:https://easycode8.github.io/easy-log
+
+### 历史说明
 演示demo属于标准maven工程,使用导入maven方式导入即可。关于eclipse/myeclipse/idea 如何配置maven,导入maven工程,不做介绍。
 
 - 运行 tomcat7:run
