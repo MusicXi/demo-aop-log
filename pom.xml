@@ -20,7 +20,7 @@
 		<!-- swagger2 -->
 		<springfox-swagger.version>2.7.0</springfox-swagger.version>
 		<!--alibaba json-->
-		<alibaba-json.version>1.2.47</alibaba-json.version>
+		<alibaba-json.version>1.2.83</alibaba-json.version>
 		<pagehelper-spring-boot.version>1.2.12</pagehelper-spring-boot.version>
 
 		<!-- mysql-->
