@@ -24,7 +24,7 @@
 		<pagehelper-spring-boot.version>1.2.12</pagehelper-spring-boot.version>
 
 		<!-- mysql-->
-		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
+		<mysql-connector-java.version>8.0.28</mysql-connector-java.version>
 	</properties>
 
 	<dependencies>
