@@ -19,7 +19,6 @@
     <Avatar size="small" shape="square" icon="ios-person" v-if="user!=null"></Avatar>{{user!=null?user.username:''}}
     <span v-if="user!=null">
         <a  @click="logout">[注销]</a>
-        <a  @click="logout">[重置密码]</a>
     </span>
     <a v-else @click="modalShowLogAdd">[请登入]</a>
 
@@ -53,7 +52,7 @@
         </Form-Item>
     </i-Form>
     </div>
-    <Divider orientation="left">日志信息系统登入后可见</Divider>
+    <Divider orientation="left">日志信息系统登入后可见【用户名/密码随便填!】</Divider>
 
     <!--log 列表 -->
     <i-table size="small" :columns="log.columns" :data="log.data" @on-selection-change="onSelectionChange"></i-table>
@@ -574,9 +573,10 @@
                 loginDate: model.loginDate
             }).then(function (response) {
                 vm.$Modal.success({
-                    title: '修改用户提示',
+                    title: '修改用户成功',
                     content: response.data.msg
                 });
+                vm.loadLogs(vm.log.pageNum, vm.log.pageSize);
             }).catch(function (error) {
                 // 使用拦截器统一处理报错
   /*              vm.$Modal.warning({

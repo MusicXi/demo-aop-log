@@ -7,7 +7,6 @@ spring:
     url: jdbc:log4jdbc:h2:mem:test
     username: root
     password: 123456
-  # liquibase不支持h2数据库,springboot的LiquibaseAutoConfiguration会自动装配开启,因此要显式关闭
   liquibase:
     enabled: false
 
