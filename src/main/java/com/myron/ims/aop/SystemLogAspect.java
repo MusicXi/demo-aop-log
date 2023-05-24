@@ -111,8 +111,7 @@ public class SystemLogAspect {
     	    }
         }
         Object [] args = joinPoint.getArgs();
-        System.out.println(args);
-        
+
     	String title="";
     	String type="info";						  //日志类型(info:入库,error:错误)
     	String remoteAddr=request.getRemoteAddr();//请求的IP
