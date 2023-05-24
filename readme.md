@@ -1,4 +1,6 @@
-# 说明
+# demo-aop-log
+![GitHub Repo stars](https://img.shields.io/github/stars/MusicXi/demo-aop-log?style=flat-square)
+
 当前项目用于学习测试spring aop日志功能。
 
 正式开源版本已经发布:https://easycode8.github.io/easy-log
