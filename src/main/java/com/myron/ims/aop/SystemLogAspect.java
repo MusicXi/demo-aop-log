@@ -18,6 +18,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
@@ -50,6 +51,7 @@ public class SystemLogAspect {
 	private HttpServletRequest request;
 	
 	@Autowired
+	@Qualifier("taskExecutor")
 	private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
 	@Autowired
