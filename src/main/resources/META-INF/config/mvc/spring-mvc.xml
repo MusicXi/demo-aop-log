@@ -59,6 +59,9 @@
     <!-- Swagger 自定义配置 -->
     <bean class="com.myron.ims.configuration.MySwaggerConfig"/>
 
-    <!-- 处理访问webapp下的前端资源文件-->
+    <!-- 处理访问webapp下的前端资源文件 @see EasyLogConfig代码配置等效替代
     <mvc:default-servlet-handler/>
+    -->
+    <bean class="com.myron.ims.configuration.EasyLogConfig"></bean>
+
 </beans>

@@ -107,11 +107,11 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j-log4j12.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>log4j</groupId>-->
+<!--			<artifactId>log4j</artifactId>-->
+<!--			<version>${log4j.version}</version>-->
+<!--		</dependency>-->
 
 
 		<!-- json -->
@@ -252,6 +252,33 @@
 		    <artifactId>springfox-swagger-ui</artifactId>
 		    <version>${springfox-swagger.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>swagger-bootstrap-ui</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+
 		<!-- GENERAL UTILS end -->
+
+		<!--测试easy-log日志框架-->
+		<dependency>
+			<groupId>io.github.easycode8</groupId>
+			<artifactId>easy-log-spring-boot-starter</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<!--测试easy-log日志框架web在线管理功能-->
+		<dependency>
+			<groupId>io.github.easycode8</groupId>
+			<artifactId>easy-log-web</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+
+		<!--定位当前spring版本(5.0.5.RELEASE)对应的springboot的autoconfigure-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-autoconfigure</artifactId>
+			<version>2.0.0.RELEASE</version>
+		</dependency>
+
 	</dependencies>
 </project>

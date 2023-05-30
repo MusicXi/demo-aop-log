@@ -8,13 +8,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.easycode8.easylog.core.annotation.EasyLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.myron.ims.annotation.SystemControllerLog;
 import com.myron.ims.bean.User;
@@ -39,19 +38,10 @@ public class LoginController {
 	public static final String KEY_USER = "ims_user";
 	
 	
-	/**
-	 * 系统登入
-	 * @param username
-	 * @param password
-	 * @param rememberMe
-	 * @param verifycode
-	 * @param req
-	 * @return
-	 * @throws WrongVerifyCodeException 
-	 */
+
 	@ApiOperation(value = "登入系统", notes = "登入系统", httpMethod = "POST")
 	@SystemControllerLog(description="登入系统")
-	@RequestMapping("/login")
+	@GetMapping("/login")
 	public String login(HttpServletRequest request, ModelMap model,User user, Boolean rememberMe, String verifycode) throws Exception{		
 		//TODO 用户密码校验逻辑省略...
 		user.setId("0001");
@@ -69,8 +59,9 @@ public class LoginController {
 	 * 安全退出登入
 	 * @return
 	 */
+	@EasyLog("安全退出系统")
 	@SystemControllerLog(description="安全退出系统")
-	@RequestMapping("logout")
+	@GetMapping("logout")
 	public String logout(HttpServletRequest request){
 		HttpSession session = request.getSession(); 
 		User user = (User) session.getAttribute(KEY_USER);
@@ -87,8 +78,9 @@ public class LoginController {
 	 * 重置密码
 	 * @return
 	 */
+	@EasyLog("用户重置密码")
 	@SystemControllerLog(description="用户重置密码")
-	@RequestMapping("resetPassword")
+	@PostMapping("resetPassword")
 	@ResponseBody
 	public Map<String, Object> resetPassword(HttpServletRequest request, @RequestBody User user1){
 		Map<String, Object> result = new HashMap<>();
@@ -106,7 +98,7 @@ public class LoginController {
 	 * @return
 	 */
 	@SystemControllerLog(description="Xxx操作")
-	@RequestMapping("testException")
+	@GetMapping("testException")
 	@ResponseBody
 	public Map<String, Object> testException(HttpServletRequest request) throws Exception{
 		Map<String, Object> result = new HashMap<>();
