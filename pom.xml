@@ -25,6 +25,8 @@
 
 		<!-- mysql-->
 		<mysql-connector-java.version>8.0.18</mysql-connector-java.version>
+
+		<easy-log.version>1.0.6</easy-log.version>
 	</properties>
 
 	<dependencies>
@@ -125,13 +127,35 @@
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
-		<!-- log4jdbc -->
+		<!-- log4jdbc-->
 		<dependency>
 			<groupId>com.googlecode.log4jdbc</groupId>
 			<artifactId>log4jdbc</artifactId>
 			<version>1.2</version>
-	<!--		<scope>runtime</scope>-->
 		</dependency>
+
+
+		<!--日志接口日志记录模块-->
+		<dependency>
+			<groupId>io.github.easycode8</groupId>
+			<artifactId>easy-log-spring-boot-starter</artifactId>
+			<version>${easy-log.version}</version>
+		</dependency>
+
+		<!--日志页面管理模块(日志开关/同步异步/处理器切换)-->
+		<dependency>
+			<groupId>io.github.easycode8</groupId>
+			<artifactId>easy-log-web</artifactId>
+			<version>${easy-log.version}</version>
+		</dependency>
+
+		<!--测试mybatis-plus记录操作的数据变化模块-->
+		<dependency>
+			<groupId>io.github.easycode8</groupId>
+			<artifactId>easy-log-data-mybatis-plus</artifactId>
+			<version>${easy-log.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<!-- 指定maven仓库 -->

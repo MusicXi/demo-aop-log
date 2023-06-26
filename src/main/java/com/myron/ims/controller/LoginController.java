@@ -1,6 +1,6 @@
 package com.myron.ims.controller;
 
-import com.myron.ims.annotation.SystemControllerLog;
+
 import com.myron.ims.bean.User;
 import com.myron.ims.configuration.AppProperties;
 import com.myron.ims.service.UserService;
@@ -112,7 +112,6 @@ public class LoginController {
 	 * 重置密码
 	 * @return
 	 */
-	@SystemControllerLog(description="用户重置密码")
 	@RequestMapping("resetPassword")
 	@ResponseBody
 	public Map<String, Object> resetPassword(HttpServletRequest request, @RequestBody User user1){
@@ -130,7 +129,6 @@ public class LoginController {
 	 * 重置密码
 	 * @return
 	 */
-	@SystemControllerLog(description="Xxx操作")
 	@RequestMapping("testException")
 	@ResponseBody
 	public Map<String, Object> testException(HttpServletRequest request) throws Exception{

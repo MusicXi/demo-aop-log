@@ -5,11 +5,24 @@ spring:
 #    active: dev
   # 页面配置
   thymeleaf:
-    mode: HTML5
-    encoding: utf-8
-    servlet:
-      content-type: text/html
+#    mode: HTML5
+#    encoding: utf-8
+#    servlet:
+#      content-type: text/html
     cache: false
+
+  application:
+    name: sample-service
+  easy-log:
+    async: false #是否默认开启异步处理日志 默认:false
+    scan-swagger:
+      enabled: true #是否将swagger的@ApiOperation接口注解标识作为日志记录 默认:false
+    scan-service:
+      enabled: true #是否记录service中的公开方法 默认:false
+    scan-controller:
+      enabled: true #是否记录controller中的公开方法 默认:false
+    scan-mybatis-plus:
+      enabled: true
 
 logging:
   config: classpath:logging-spring.xml

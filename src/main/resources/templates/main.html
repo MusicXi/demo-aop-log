@@ -19,6 +19,7 @@
     <Avatar size="small" shape="square" icon="ios-person" v-if="user!=null"></Avatar>{{user!=null?user.username:''}}
     <span v-if="user!=null">
         <a  @click="logout">[注销]</a>
+        <a href="easy-log-ui.html" target="_blank">easy-log日志管理</a>
     </span>
     <a v-else @click="modalShowLogAdd">[请登入]</a>
 
@@ -72,12 +73,12 @@
 
         <i-Form ref="formInline" :model="formInline" :rules="ruleInline" class="login">
             <Form-Item prop="username">
-                <i-Input type="text" v-model="formInline.username" placeholder="Username">
+                <i-Input type="text" v-model="formInline.username" placeholder="账号随便填">
                     <Icon type="ios-person-outline" slot="prepend"></Icon>
                 </i-Input>
             </Form-Item>
             <Form-Item prop="password">
-                <i-Input type="password" v-model="formInline.password" placeholder="Password">
+                <i-Input type="password" v-model="formInline.password" placeholder="密码随便填">
                     <Icon type="ios-lock-outline" slot="prepend"></Icon>
                 </i-Input>
             </Form-Item>
