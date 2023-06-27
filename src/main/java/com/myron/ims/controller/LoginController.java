@@ -55,10 +55,10 @@ public class LoginController {
 		front.put("iview_js", "http://unpkg.com/iview/dist/iview.min.js");
 		front.put("vue_js", "https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js");
 		front.put("axios_js", "https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js");*/
-		front.put("iview_css", apiPrefix + "static/dist/iview/style/iview.css");
-		front.put("iview_js", apiPrefix + "static/dist/iview/iview.min.js");
-		front.put("vue_js", apiPrefix + "static/dist/vue/vue.js");
-		front.put("axios_js", apiPrefix + "static/dist/axios/axios.min.js");
+		front.put("iview_css", apiPrefix + "dist/iview/style/iview.css");
+		front.put("iview_js", apiPrefix + "dist/iview/iview.min.js");
+		front.put("vue_js", apiPrefix + "dist/vue/vue.js");
+		front.put("axios_js", apiPrefix + "dist/axios/axios.min.js");
 		model.addAttribute("front", front);
 	    return "main";
     }
