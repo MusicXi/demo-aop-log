@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,17 +42,10 @@ public class LoginController {
 	
 	/**
 	 * 系统登入
-	 * @param username
-	 * @param password
-	 * @param rememberMe
-	 * @param verifycode
-	 * @param req
-	 * @return
-	 * @throws WrongVerifyCodeException 
 	 */
 	@ApiOperation(value = "登入系统", notes = "登入系统", httpMethod = "POST")
 	@SystemControllerLog(description="登入系统")
-	@RequestMapping("/login")
+	@PostMapping("/login")
 	public String login(HttpServletRequest request, ModelMap model,User user, Boolean rememberMe, String verifycode) throws Exception{		
 		//TODO 用户密码校验逻辑省略...
 		user.setId("0001");
