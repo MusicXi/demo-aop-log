@@ -61,4 +61,7 @@
 
     <!-- 处理访问webapp下的前端资源文件-->
     <mvc:default-servlet-handler/>
+
+    <!--加载数据源mvc专用配置类-->
+    <bean class="com.myron.ims.configuration.DynamicDatasourceMvcConfig"></bean>
 </beans>
