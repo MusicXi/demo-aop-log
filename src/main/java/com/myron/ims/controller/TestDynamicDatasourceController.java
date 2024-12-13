@@ -1,6 +1,7 @@
 package com.myron.ims.controller;
 
-import com.easycode8.datasource.dynamic.core.annotation.DynamicSource;
+
+import com.zoe.datasource.dynamic.core.annotation.DynamicSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
