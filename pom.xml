@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.2.0</version>
+			<version>3.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>${commons-lang3.version}</version>
+			<version>3.10</version>
 		</dependency>
 
 		<!-- 构建Restful API -->
@@ -80,7 +80,7 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox-swagger.version}</version>
+			<version>3.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox-swagger.version}</version>
+			<version>2.10.0</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -96,27 +96,27 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>${alibaba-json.version}</version>
+			<version>1.2.83_noneautotype</version>
 		</dependency>
 
 		<!--pagehelper-->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
-			<version>${pagehelper-spring-boot.version}</version>
+			<version>1.4.7</version>
 		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
+			<version>2.14.0</version>
 		</dependency>
 
 		<!--mysql jdbc驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql-connector-java.version}</version>
+			<version>8.0.31</version>
 		</dependency>
 
 		<!-- liquibase管理升级脚本(org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration 自动装配)-->
